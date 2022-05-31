@@ -16,12 +16,11 @@ class ProcessModel
     this.image,
     this.result,
   });
-  ProcessModel.FromJosn(Map<String,dynamic> json )
+  ProcessModel.fromJson(Map<String,dynamic> json )
   {
     confidence=json['confidence'];
     name=json['name'];
     dateTime=json['date'];
-    uId=json['uId'];
     image=json['image'];
     result=json['result'];
 
@@ -41,25 +40,21 @@ class ProcessModel
 class PatientModel
 {
   String? name;
-  String? uId;
   String? dateTime;
 
   PatientModel({
     this.dateTime,
     this.name,
-    this.uId,
   });
   PatientModel.FromJosn(Map<String,dynamic> json )
   {
     name=json['name'];
     dateTime=json['date'];
-    uId=json['uId'];
 
   }
   Map<String,dynamic> toMap(){
     return{
       'name':name,
-      'uId':uId,
       'date':dateTime,
 
     };

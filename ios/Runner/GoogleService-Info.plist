@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>916014398284-n7uii5lqbankdsqvru0sa8i6i8lqimth.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.916014398284-n7uii5lqbankdsqvru0sa8i6i8lqimth</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>916014398284-chumkl4s5q4pe1snkra4l1gfrhu03ddp.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAt-lRR1umvmXfJCKHy35gfm4q1dqrmvgY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>916014398284</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.brainTumor</string>
+	<key>PROJECT_ID</key>
+	<string>brain-tumor-detector-e24d2</string>
+	<key>STORAGE_BUCKET</key>
+	<string>brain-tumor-detector-e24d2.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:916014398284:ios:7753abe80d5a591520ede9</string>
+</dict>
+</plist>

@@ -1,7 +1,10 @@
+import 'package:brain_tumor/cubit/cubit/cubit.dart';
+import 'package:brain_tumor/cubit/states/states.dart';
 import 'package:brain_tumor/shared/colors/colors.dart';
 import 'package:brain_tumor/shared/component/component.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../layout/EndLAyout/end.dart';
 
@@ -10,39 +13,23 @@ class Result extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body:Column(
-          children: [
-            myAppBar(PageNum: 3),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 59),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-
-                children: [
-                  Text("Result",style: TextStyle(
-                    fontSize: 39,
-                    fontWeight: FontWeight.w300,
-                    color: primarycolor,
-                  ),),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 500),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        myBtn(onPressed: (){
-                          navigateTo(context, EndScreen());
-                        }, text: "DOWNLOAD RESULT")
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+    return BlocConsumer<AppCubit,Appstates>(
+      listener:(context,sate){},
+      builder:(context,sate){
+        var cubit =AppCubit.get(context);
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              buildStaticsItem(),
+              const SizedBox(height: 20,),
+              ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context,index)=>buildFolderItem(context: context), separatorBuilder: (context,index)=>const SizedBox(height: 15,), itemCount: 5),
+            ],
+          ),
+        );
+      } ,
     );
   }
 }
