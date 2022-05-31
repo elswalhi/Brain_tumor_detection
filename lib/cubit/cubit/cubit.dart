@@ -233,8 +233,8 @@ class AppCubit extends Cubit<Appstates> {
         maxImages: 5,
         enableCamera: false,
         selectedAssets: imagesList,
-        cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
-        materialOptions: MaterialOptions(
+        cupertinoOptions: const CupertinoOptions(takePhotoIcon: "chat"),
+        materialOptions: const MaterialOptions(
           actionBarColor: "#009E82",
           actionBarTitle: "Brain Tumor Detection",
           allViewTitle: "All Photos",
@@ -262,9 +262,10 @@ class AppCubit extends Cubit<Appstates> {
       print(e);
     }
   }
+
   Future uploadImageToServer(BuildContext context, {required name}) async {
     var uri = Uri.parse(
-        "https://8298-156-196-194-13.eu.ngrok.io/upload?patientName='$name'");
+        "https://427c-156-196-7-89.eu.ngrok.io/upload?patientName='$name'");
     http.MultipartRequest request = http.MultipartRequest('POST', uri);
     List<http.MultipartFile> newList = <http.MultipartFile>[];
     for (int i = 0; i < imagesList.length; i++) {
@@ -284,7 +285,7 @@ class AppCubit extends Cubit<Appstates> {
     var response = await request.send();
     print(response.toString());
     response.stream.transform(utf8.decoder).listen((value) {
-      print("el value  $value");
+      print("el value  ${value}");
     });
     if (response.statusCode == 200) {
       print('uploaded');
@@ -293,7 +294,6 @@ class AppCubit extends Cubit<Appstates> {
     }
   }
   void AddMri({
-    required String name,
     required String datetime,
     required String result,
     required String confidence,
@@ -301,21 +301,31 @@ class AppCubit extends Cubit<Appstates> {
   }) {
     emit(UploadResultLoading());
     PatientModel patientModel = PatientModel(
-      name: name,
-      dateTime: datetime,
+      name: nameController.text,
+      date: datetime,
+      dId: usermodel!.uId,
     );
     MriModel mriModel=MriModel(
       confidence: confidence,
       image: image,
+      isSaved: false,
       result: this.result
     );
     FirebaseFirestore.instance
-        .collection("users")
-        .doc(usermodel!.uId)
-        .collection("process")
+        .collection("patient")
         .add(patientModel.toMap())
         .then((value) {
-      emit(UploadResultSuccess());
+          FirebaseFirestore.instance
+          .collection('patient')
+          .doc(value.id)
+          .collection('Mri')
+          .add(mriModel.toMap())
+          .then((value) {
+            emit(UploadResultSuccess());
+          })
+          .catchError((error) {
+            emit(UploadResultError());
+          });
     }).catchError((error) {
       print("Error of patint is $error");
       emit(UploadResultError());
@@ -345,7 +355,6 @@ class AppCubit extends Cubit<Appstates> {
         .then((value) {
       value.ref.getDownloadURL().then((value) {
         AddMri(
-            name: name,
             datetime: datetime,
             result: result,
             confidence: confidence,

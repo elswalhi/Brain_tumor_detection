@@ -37,53 +37,113 @@ class ProcessModel
     };
   }
 }
-class PatientModel
-{
+// class PatientModel
+// {
+//   String? name;
+//   String? dateTime;
+//
+//   PatientModel({
+//     this.dateTime,
+//     this.name,
+//   });
+//   PatientModel.fromJson(Map<String,dynamic> json )
+//   {
+//     name=json['name'];
+//     dateTime=json['date'];
+//
+//   }
+//   Map<String,dynamic> toMap(){
+//     return{
+//       'name':name,
+//       'date':dateTime,
+//
+//     };
+//   }
+// }
+// class MriModel
+// {
+//   String? image;
+//   String? confidence;
+//   String? result;
+//   bool isSaved=false;
+//
+//   MriModel({
+//     this.confidence,
+//     this.image,
+//     this.result,
+//   });
+//   MriModel.fromJson(Map<String,dynamic> json )
+//   {
+//     confidence=json['confidence'];
+//     image=json['image'];
+//     result=json['result'];
+//
+//   }
+//   Map<String,dynamic> toMap(){
+//     return{
+//       'image':image,
+//       'result':result,
+//       'confidence':confidence,
+//     };
+//   }
+// }
+
+
+class PatientModel{
   String? name;
-  String? dateTime;
+  String? dId;
+  String? date;
+  MriModel? mriModel;
 
   PatientModel({
-    this.dateTime,
     this.name,
+    this.dId,
+    this.date,
   });
-  PatientModel.FromJosn(Map<String,dynamic> json )
-  {
-    name=json['name'];
-    dateTime=json['date'];
-
+  PatientModel.fromJson(Map<String, dynamic>? json){
+    name = json!['name'];
+    dId = json['dId'];
+    date = json['date'];
+    mriModel = MriModel.fromJson(json['data']);
   }
-  Map<String,dynamic> toMap(){
-    return{
-      'name':name,
-      'date':dateTime,
 
+  Map<String, dynamic> toMap(){
+    return {
+      'name':name,
+      'dId':dId,
+      'date':date,
+      'mriModel': mriModel!.toMap(),
     };
   }
 }
-class MriModel
-{
-  String? image;
-  String? confidence;
-  String? result;
-  bool isSaved=false;
 
+class MriModel{
+  String? image;
+  String? result;
+  String? confidence;
+  bool? isSaved;
   MriModel({
-    this.confidence,
     this.image,
     this.result,
+    this.confidence,
+    this.isSaved,
   });
-  MriModel.FromJosn(Map<String,dynamic> json )
-  {
-    confidence=json['confidence'];
-    image=json['image'];
-    result=json['result'];
-
+  MriModel.fromJson(Map<String, dynamic>? json){
+    image = json!['image'];
+    result = json['result'];
+    confidence = json['confidence'];
+    isSaved = json['isSaved'];
   }
-  Map<String,dynamic> toMap(){
-    return{
+
+  Map<String, dynamic> toMap(){
+    return {
       'image':image,
       'result':result,
       'confidence':confidence,
+      'isSaved':isSaved,
     };
   }
 }
+
+
+
