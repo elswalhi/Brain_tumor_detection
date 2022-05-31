@@ -16,6 +16,7 @@ class AfterUpload extends StatelessWidget {
     return BlocConsumer<AppCubit,Appstates>(
       listener: (BuildContext context, Object? state) {  },
       builder: (BuildContext context, state) {
+     
         var cubit= AppCubit.get(context);
         return Scaffold(
           appBar: AppBar(
@@ -27,37 +28,42 @@ class AfterUpload extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                SingleChildScrollView(
-                  child: GridView.count(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    crossAxisCount: 2,
-                    children: List.generate(cubit.resultList.length, (index) {
-                      Asset asset = cubit.resultList[index];
-                      return Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: maincolor,width: 1)
-                          ),
-                          child: AssetThumb(
-                            asset: asset,
-                            width: 200,
-                            height: 200,
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
+                // SingleChildScrollView(
+                //   child: GridView.count(
+                //     shrinkWrap: true,
+                //     physics: NeverScrollableScrollPhysics(),
+                //     crossAxisCount: 2,
+                //     children: List.generate(cubit.resultList.length, (index) {
+                //       Asset asset = cubit.resultList[index];
+                //       return Padding(
+                //         padding: const EdgeInsets.all(5.0),
+                //         child: Container(
+                //           decoration: BoxDecoration(
+                //             border: Border.all(color: maincolor,width: 1)
+                //           ),
+                //           child: AssetThumb(
+                //             asset: asset,
+                //             width: 200,
+                //             height: 200,
+                //           ),
+                //         ),
+                //       );
+                //     }),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsetsDirectional.only(bottom: 30),
+                //   child: Text("${cubit.resultList.length}/5",style: textStyle,),
+                // ),
+                Container(
+                  width: double.infinity,
+                  height: 350,
+                  child: Image(image: FileImage(cubit.mriImage!),),
                 ),
                 Padding(
-                  padding: const EdgeInsetsDirectional.only(bottom: 30),
-                  child: Text("${cubit.resultList.length}/5",style: textStyle,),
-                ),
-                Padding(
-                  padding: const EdgeInsetsDirectional.only(bottom: 70),
+                  padding: const EdgeInsetsDirectional.only(bottom: 70,top: 30),
                   child: Container(child: defaultButton(function: (){
-                    cubit.uploadImageToServer(context, name: nameController.text);
+                    cubit.classifyImage(image :cubit.mriImage,datetime:formattedDate, context: context );
                   }, text: "Start Processing")),
                 )
               ],

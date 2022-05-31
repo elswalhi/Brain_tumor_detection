@@ -77,3 +77,8 @@ TextStyle textStyle =TextStyle(
   color: maincolor,
 );
 var nameController=TextEditingController();
+var date = new DateTime.now().toString();
+
+var dateParse = DateTime.parse(date);
+
+var formattedDate = "${dateParse.day}-${dateParse.month}-${dateParse.year}";

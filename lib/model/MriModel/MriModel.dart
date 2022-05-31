@@ -112,7 +112,6 @@ class PatientModel{
       'name':name,
       'dId':dId,
       'date':date,
-      'mriModel': mriModel!.toMap(),
     };
   }
 }
@@ -120,7 +119,7 @@ class PatientModel{
 class MriModel{
   String? image;
   String? result;
-  String? confidence;
+  double? confidence;
   bool? isSaved;
   MriModel({
     this.image,

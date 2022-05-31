@@ -145,8 +145,7 @@ class UploadScreen extends StatelessWidget {
                       child: InkWell(
                         onTap: () {
                           if(key.currentState!.validate()){
-                            cubit.loadAssets(context);
-
+                            cubit.getImage(context);
                           }
                           // AppCubit.get(context).getImage();
                           //cubit.getProfileImages();
@@ -189,10 +188,6 @@ class UploadScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text(
-                      "0/5",
-                      style: textStyle,
-                    )
                   ],
                 ),
               ),

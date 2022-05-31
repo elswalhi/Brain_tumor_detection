@@ -1,11 +1,13 @@
 class Testmodel {
-  String? result;
   int? response;
+  String? result;
 
-  Testmodel({this.result, this.response});
+  Testmodel({this.response, this.result});
 
   Testmodel.fromJson(Map<String, dynamic> json) {
-    result = json['Result'];
     response = json['response'];
+    result = json['result'];
   }
+
+
 }
