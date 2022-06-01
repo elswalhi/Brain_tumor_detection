@@ -22,6 +22,7 @@ class HomeScreen extends StatelessWidget {
         return state is !GetUserLoading ? Scaffold(
           appBar: PreferredSize(
               preferredSize: const Size.fromHeight(70.0),
+
             child: AppBar(
               leadingWidth: 50,
               leading:const Padding(
@@ -30,7 +31,10 @@ class HomeScreen extends StatelessWidget {
               ) ,
               title: Padding(
                 padding: const EdgeInsetsDirectional.only(top: 10),
-                child: Text(cubit.currentIndex==0?usermodel!.name! :cubit.Titles[cubit.currentIndex],style: const TextStyle(fontSize: 16,color: Colors.white),),
+                child:  Row(children: [
+                  if(usermodel != null)
+                    Text(cubit.currentIndex==0?usermodel!.name! :cubit.Titles[cubit.currentIndex],style: const TextStyle(fontSize: 16,color: Colors.white),)
+                ],),
               ),
               actions: [
                 Column(
@@ -41,7 +45,8 @@ class HomeScreen extends StatelessWidget {
                       child: Stack(alignment:Alignment.center ,
                         children: [
                           const CircleAvatar(radius: 27,backgroundColor: Colors.white,),
-                          CircleAvatar(
+                          if(usermodel != null)
+                            CircleAvatar(
                             backgroundImage: NetworkImage(usermodel!.image!) ,
                             radius: 25,
                           ),

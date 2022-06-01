@@ -1,5 +1,6 @@
 import 'package:brain_tumor/cubit/cubit/cubit.dart';
 import 'package:brain_tumor/cubit/states/states.dart';
+import 'package:brain_tumor/model/MriModel/MriModel.dart';
 import 'package:brain_tumor/shared/colors/colors.dart';
 import 'package:brain_tumor/shared/component/component.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,7 +12,8 @@ import '../../shared/const/const.dart';
 import '../uploadscreen/UploadScreen.dart';
 
 class ResultName extends StatelessWidget {
-  const ResultName({Key? key}) : super(key: key);
+  List<MriModel>? mriModel;
+  ResultName({Key? key, required this.mriModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,10 @@ class ResultName extends StatelessWidget {
                 ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context,index)=>buildResultItem(context), separatorBuilder: (context,index)=>const SizedBox(height: 15,), itemCount: 5),
+                    itemBuilder: (context,index)=>buildResultItem(context, mriModel![index]),
+                    separatorBuilder: (context,index)=>const SizedBox(height: 15,),
+                    itemCount: mriModel!.length
+                ),
               ],
             ),
           ),

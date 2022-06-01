@@ -92,33 +92,30 @@ class ProcessModel
 class PatientModel{
   String? name;
   String? dId;
-  String? date;
   MriModel? mriModel;
 
   PatientModel({
     this.name,
     this.dId,
-    this.date,
   });
   PatientModel.fromJson(Map<String, dynamic> json){
     name = json['name'];
     dId = json['dId'];
-    date = json['date'];
-    mriModel = MriModel.fromJson(json['data']);
   }
 
   Map<String, dynamic> toMap(){
     return {
       'name':name,
       'dId':dId,
-      'date':date,
     };
   }
 }
 
 class MriModel{
   String? image;
+  String? pId;
   String? result;
+  String? date;
   double? confidence;
   bool? isSaved;
   MriModel({
@@ -126,12 +123,16 @@ class MriModel{
     this.result,
     this.confidence,
     this.isSaved,
+    this.date,
+    this.pId,
   });
   MriModel.fromJson(Map<String, dynamic>? json){
     image = json!['image'];
     result = json['result'];
     confidence = json['confidence'];
     isSaved = json['isSaved'];
+    date = json['date'];
+    pId = json['pId'];
   }
 
   Map<String, dynamic> toMap(){
@@ -140,6 +141,8 @@ class MriModel{
       'result':result,
       'confidence':confidence,
       'isSaved':isSaved,
+      'date':date,
+      'pId':pId,
     };
   }
 }

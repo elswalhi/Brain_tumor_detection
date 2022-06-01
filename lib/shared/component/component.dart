@@ -1,5 +1,6 @@
+import 'package:brain_tumor/cubit/cubit/cubit.dart';
+import 'package:brain_tumor/model/MriModel/MriModel.dart';
 import 'package:brain_tumor/module/Login/loginCubit/cubit/cubit.dart';
-import 'package:brain_tumor/module/Register/RegisterCubit/cubit/cubit.dart';
 import 'package:brain_tumor/module/Result/name%20result.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -303,7 +304,7 @@ class _checkboxState extends State<checkbox> {
     );
   }
 }
-Widget buildResultItem(context){
+Widget buildResultItem(context, MriModel model){
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 20),
     child: Row(
@@ -323,7 +324,7 @@ Widget buildResultItem(context){
                     children: [
                       Text("Name : " ,style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 14,fontWeight: FontWeight.w400),),
                       const SizedBox(width: 10,),
-                      Text("Frist Last",style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 16,fontWeight: FontWeight.w700 ),),
+                      Text("${model.pId}",style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 16,fontWeight: FontWeight.w700 ),),
                     ],
                   ),
                 ),
@@ -444,7 +445,7 @@ Widget buildSavedItem(){
     ),
   );
 }
-Widget buildFolderItem({required context }){
+Widget buildFolderItem(context,index, PatientModel model, MriModel mriModel){
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 20),
     child: Row(
@@ -464,7 +465,7 @@ Widget buildFolderItem({required context }){
                     children: [
                       Text("Name : " ,style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 14,fontWeight: FontWeight.w400),),
                       const SizedBox(width: 10,),
-                      Text("Frist Last",style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 16,fontWeight: FontWeight.w700 ),),
+                      Text("${model.name}",style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 16,fontWeight: FontWeight.w700 ),),
                     ],
                   ),
                 ),
@@ -483,7 +484,11 @@ Widget buildFolderItem({required context }){
                   child: Row(
                     children: [
                       defaultButton(function: (){
-                        navigateTo(context, const ResultName());
+                        print(mriModel.pId);
+                        print(model.name);
+                        print(AppCubit.get(context).mriDetails[model.name]!);
+
+                        navigateTo(context, ResultName(mriModel: AppCubit.get(context).mriDetails[model.name]));
                       }, text: "Open Folder",width: 130,height: 25),
                     ],
                   ),

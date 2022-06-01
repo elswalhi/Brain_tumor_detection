@@ -59,7 +59,7 @@ class ProcessingDetails extends StatelessWidget {
               ],
             ),
           ),
-          body: state is UploadResultSuccess ?Padding(
+          body: state is getPatientSuccess ?Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: SingleChildScrollView(
               child: Column(

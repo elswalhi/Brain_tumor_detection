@@ -245,6 +245,7 @@ class AppCubit extends Cubit<Appstates> {
       print('failed');
     }
   }
+  String? mrId;
   void AddMri({
     required String datetime,
     required String result,
@@ -254,7 +255,6 @@ class AppCubit extends Cubit<Appstates> {
     emit(UploadResultLoading());
     PatientModel patientModel = PatientModel(
       name: nameController.text,
-      date: datetime,
       dId: usermodel!.uId,
     );
     MriModel mriModel=MriModel(
@@ -262,10 +262,11 @@ class AppCubit extends Cubit<Appstates> {
       image: image,
       isSaved: false,
       result: result,
+      date: datetime,
     );
     FirebaseFirestore.instance
         .collection("patient")
-        .add(patientModel.toMap())
+        .doc(nameController.text).set(patientModel.toMap())
         .then((value) {
           FirebaseFirestore.instance
           .collection('patient')
@@ -273,6 +274,7 @@ class AppCubit extends Cubit<Appstates> {
           .collection('Mri')
           .add(mriModel.toMap())
           .then((value) {
+            getPatient();
             emit(UploadResultSuccess());
           })
           .catchError((error) {
@@ -281,6 +283,36 @@ class AppCubit extends Cubit<Appstates> {
     }).catchError((error) {
       print("Error of patint is $error");
       emit(UploadResultError());
+    });
+  }
+
+
+  List<PatientModel> patientModel = [];
+  List<MriModel> mriModel = [];
+  List<String> mrIdList = [];
+  Map<String, List<MriModel>> mriDetails = {};
+  void getPatient(){
+    emit(getPatientLoading());
+    FirebaseFirestore.instance
+        .collection('patient')
+        .get().then((value) {
+          value.docs.forEach((patientId) {
+            patientModel.add(PatientModel.fromJson(patientId.data()));
+            mriDetails.addAll({patientId.id:[]});
+            patientId.reference.collection('Mri').get().then((value) {
+              value.docs.forEach((element) {
+                //print(element.id);
+                mriDetails[patientId.id]!.add(MriModel.fromJson(element.data()));
+                mrIdList.add(element.id);
+                mriModel.add(MriModel.fromJson(element.data()));
+              });
+            });
+          });
+          print(mrIdList);
+          emit(getPatientSuccess());
+    }).catchError((error) {
+          print(error.toString());
+          emit(getPatientError());
     });
   }
 
@@ -303,7 +335,8 @@ var imageLink;
             datetime: datetime,
             result: result,
             confidence: confidence,
-            image: value);
+            image: value,
+        );
       });
     }).catchError((error) {});
   }

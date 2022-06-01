@@ -44,12 +44,19 @@ class Recent extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsetsDirectional.only(top: 30,bottom: 20),
-                      child: Text("Recent Results",style: TextStyle(color: textcolor,fontSize: 25,fontWeight: FontWeight.w700),),
+                      child: InkWell(
+                        onTap: (){
+                          AppCubit.get(context).getPatient();
+                        },
+                          child: Text("Recent Results",style: TextStyle(color: textcolor,fontSize: 25,fontWeight: FontWeight.w700),)),
                     ),
                     ListView.separated(
                       shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context,index)=>buildResultItem(context), separatorBuilder: (context,index)=>const SizedBox(height: 15,), itemCount: 5),
+                        itemBuilder: (context,index)=>buildResultItem(context, cubit.mriModel[index]),
+                        separatorBuilder: (context,index)=>const SizedBox(height: 15,),
+                        itemCount: cubit.mriModel.length
+                    ),
                   ],
                 ),
               ),
