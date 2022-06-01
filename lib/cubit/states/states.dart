@@ -26,6 +26,18 @@ class UploadResultSuccess extends Appstates{}
 class UploadResultError extends Appstates{}
 
 class changeBottomNav extends Appstates{}
+class GetPostsSuccess extends Appstates{}
+
+
+class GetPostsLoading extends Appstates{}
+
+
+class GetPostsError extends Appstates {
+  final String? error;
+
+  GetPostsError(this.error);
+
+}
 
 
 class GetUserError extends Appstates{

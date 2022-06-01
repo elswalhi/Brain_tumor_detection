@@ -307,6 +307,23 @@ var imageLink;
       });
     }).catchError((error) {});
   }
+  List<PatientModel> processInfo=[];
+  void getProcessInfo(){
+    emit(GetPostsLoading());
+    FirebaseFirestore.instance.collection('patient').doc().get().
+        then((value) {
+      processInfo.add(PatientModel.fromJson(value.data()!));
+      print(value);
+          emit(GetPostsSuccess());
+          print(processResult);
+    }).catchError((error){
+      print(error);
+      emit(GetPostsError(error.toString()));
+    });
+
+
+
+}
 
 
 }

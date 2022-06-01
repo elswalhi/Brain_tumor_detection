@@ -42,7 +42,7 @@ dependencies:
   conditional_builder_rec: ^1.0.0
   hexcolor: ^2.0.6
   dio: ^4.0.6
-  tflite:
+  tflite: ^1.1.2
   shared_preferences: ^2.0.13
   image_picker: ^0.8.4+11
   image_pickers: ^2.0.0+2

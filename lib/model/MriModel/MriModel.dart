@@ -100,8 +100,8 @@ class PatientModel{
     this.dId,
     this.date,
   });
-  PatientModel.fromJson(Map<String, dynamic>? json){
-    name = json!['name'];
+  PatientModel.fromJson(Map<String, dynamic> json){
+    name = json['name'];
     dId = json['dId'];
     date = json['date'];
     mriModel = MriModel.fromJson(json['data']);
