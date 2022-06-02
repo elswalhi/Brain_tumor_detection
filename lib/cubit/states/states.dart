@@ -8,6 +8,16 @@ class getPatientLoading extends Appstates{}
 class getPatientSuccess extends Appstates{}
 class getPatientError extends Appstates{}
 
+//update Patient
+class UpdatePatientLoading extends Appstates{}
+class UpdatePatientSuccess extends Appstates{}
+class UpdatePatientError extends Appstates{}
+
+//update save
+class UpdateSaveLoading extends Appstates{}
+class UpdateSaveSuccess extends Appstates{}
+class UpdateSaveError extends Appstates{}
+class ChangeSaved extends Appstates{}
 
 class uploadImageSuccess extends Appstates{}
 

@@ -113,6 +113,7 @@ class PatientModel{
 
 class MriModel{
   String? image;
+  String? mrId;
   String? result;
   String? date;
   double? confidence;
@@ -123,6 +124,7 @@ class MriModel{
     this.confidence,
     this.isSaved,
     this.date,
+    this.mrId,
   });
   MriModel.fromJson(Map<String, dynamic>? json){
     image = json!['image'];
@@ -130,6 +132,7 @@ class MriModel{
     confidence = json['confidence'];
     isSaved = json['isSaved'];
     date = json['date'];
+    mrId = json['mrId'];
   }
 
   Map<String, dynamic> toMap(){
@@ -139,6 +142,7 @@ class MriModel{
       'confidence':confidence,
       'isSaved':isSaved,
       'date':date,
+      'mrId':mrId,
     };
   }
 }

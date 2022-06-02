@@ -53,9 +53,9 @@ class Recent extends StatelessWidget {
                     ListView.separated(
                       shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context,index)=>buildResultItem(context, cubit.mriModel[index]),
+                        itemBuilder: (context,index)=>buildResultItem(context, cubit.mriModels[index],cubit.patientModels[index]),
                         separatorBuilder: (context,index)=>const SizedBox(height: 15,),
-                        itemCount: cubit.mriModel.length
+                        itemCount: cubit.mriModels.length
                     ),
                   ],
                 ),

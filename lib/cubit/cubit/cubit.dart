@@ -276,7 +276,14 @@ class AppCubit extends Cubit<Appstates> {
           .collection('Mri')
           .add(mriModel.toMap())
           .then((value) {
-            getPatient();
+            updatePatient(
+              confidence: confidence,
+              datetime: datetime,
+              image: image,
+              isSave: false,
+              mrid: value.id,
+              result: result,
+            );
             emit(UploadResultSuccess());
           })
           .catchError((error) {
@@ -289,8 +296,138 @@ class AppCubit extends Cubit<Appstates> {
   }
 
 
-  List<PatientModel> patientModel = [];
-  List<MriModel> mriModel = [];
+  void updatePatient({
+    required String datetime,
+    required bool isSave,
+    required String result,
+    required double confidence,
+    required String image,
+    required String mrid,
+}){
+    emit(UpdatePatientLoading());
+    PatientModel patientModel = PatientModel(
+      name: nameController.text,
+      dId: usermodel!.uId,
+    );
+    MriModel mriModel=MriModel(
+      confidence: confidence,
+      image: image,
+      isSaved: isSave,
+      result: result,
+      date: datetime,
+      mrId: mrid,
+    );
+    FirebaseFirestore.instance
+        .collection("patient")
+        .doc(nameController.text).update(patientModel.toMap())
+        .then((value) {
+      FirebaseFirestore.instance
+          .collection('patient')
+          .doc(nameController.text)
+          .collection('Mri')
+          .doc(mrid).update(mriModel.toMap())
+          .then((value) {
+            patientModels = [];
+            mriModels = [];
+            getPatient();
+            emit(UpdatePatientSuccess());
+      })
+          .catchError((error) {
+        emit(UpdatePatientError());
+      });
+    }).catchError((error) {
+      print("Error of patint is $error");
+      emit(UpdatePatientError());
+    });
+  }
+
+  bool isSaved = false;
+  void upadteSave({
+    required String? datetime,
+    required String? name,
+    required String? result,
+    required double? confidence,
+    required String? image,
+    required String? mrid,
+}){
+    isSaved = !isSaved;
+    emit(ChangeSaved());
+    if(isSaved){
+      emit(UpdateSaveLoading());
+      PatientModel patientModel = PatientModel(
+        name: name,
+        dId: usermodel!.uId,
+      );
+      MriModel mriModel=MriModel(
+        confidence: confidence,
+        image: image,
+        isSaved: isSaved,
+        result: result,
+        date: datetime,
+        mrId: mrid,
+      );
+      FirebaseFirestore.instance
+          .collection("patient")
+          .doc(name).update(patientModel.toMap())
+          .then((value) {
+        FirebaseFirestore.instance
+            .collection('patient')
+            .doc(name)
+            .collection('Mri')
+            .doc(mrid).update(mriModel.toMap())
+            .then((value) {
+              patientModels = [];
+              mriModels = [];
+              getPatient();
+        })
+            .catchError((error) {
+          emit(UpdateSaveError());
+        });
+      }).catchError((error) {
+        print("Error of patint is $error");
+        emit(UpdateSaveError());
+      });
+    }else{
+      emit(UpdateSaveLoading());
+      PatientModel patientModel = PatientModel(
+        name: name,
+        dId: usermodel!.uId,
+      );
+      MriModel mriModel=MriModel(
+        confidence: confidence,
+        image: image,
+        isSaved: false,
+        result: result,
+        date: datetime,
+        mrId: mrid,
+      );
+      FirebaseFirestore.instance
+          .collection("patient")
+          .doc(name).update(patientModel.toMap())
+          .then((value) {
+        FirebaseFirestore.instance
+            .collection('patient')
+            .doc(name)
+            .collection('Mri')
+            .doc(mrid).update(mriModel.toMap())
+            .then((value) {
+          patientModels = [];
+          mriModels = [];
+          getPatient();
+          emit(UpdateSaveSuccess());
+        })
+            .catchError((error) {
+          emit(UpdateSaveError());
+        });
+      }).catchError((error) {
+        print("Error of patint is $error");
+        emit(UpdateSaveError());
+      });
+    }
+  }
+
+  List<PatientModel> patientModels = [];
+  List<MriModel> mriModels = [];
   List<String> mrIdList = [];
   Map<String, List<MriModel>> mriDetails = {};
   void getPatient(){
@@ -299,14 +436,14 @@ class AppCubit extends Cubit<Appstates> {
         .collection('patient')
         .get().then((value) {
           value.docs.forEach((patientId) {
-            patientModel.add(PatientModel.fromJson(patientId.data()));
+            patientModels.add(PatientModel.fromJson(patientId.data()));
             mriDetails.addAll({patientId.id:[]});
             patientId.reference.collection('Mri').get().then((value) {
               value.docs.forEach((element) {
                 //print(element.id);
                 mriDetails[patientId.id]!.add(MriModel.fromJson(element.data()));
                 mrIdList.add(element.id);
-                mriModel.add(MriModel.fromJson(element.data()));
+                mriModels.add(MriModel.fromJson(element.data()));
               });
             });
           });

@@ -305,12 +305,13 @@ class _checkboxState extends State<checkbox> {
   }
 }
 var myindex;
-Widget buildResultItem(context,  MriModel model){
+Widget buildResultItem(context,  MriModel model, PatientModel patientModel){
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 20),
     child: Row(
       children: [
-        Expanded(
+        if(usermodel!.uId == patientModel.dId)
+          Expanded(
           child: Container(
             height: 137,
             decoration: BoxDecoration(
@@ -319,18 +320,18 @@ Widget buildResultItem(context,  MriModel model){
             ),
             child: Column(
               children: [
-                // Padding(
-                //   padding: const EdgeInsets.all(10.0),
-                //   child: Row(
-                //     children: [
-                //       Text("Name : " ,style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 14,fontWeight: FontWeight.w400),),
-                //       const SizedBox(width: 10,),
-                //       Text("${model}",style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 16,fontWeight: FontWeight.w700 ),),
-                //     ],
-                //   ),
-                // ),
                 Padding(
-                  padding: const EdgeInsetsDirectional.only(top: 40,bottom: 20,start: 10),
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    children: [
+                      Text("Name : " ,style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 14,fontWeight: FontWeight.w400),),
+                      const SizedBox(width: 10,),
+                      Text("${patientModel.name}",style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 16,fontWeight: FontWeight.w700 ),),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsetsDirectional.only(bottom: 20,start: 10),
                   child: Row(
                     children: [
                       Text("Date : " ,style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 14,fontWeight: FontWeight.w400),),
@@ -344,12 +345,19 @@ Widget buildResultItem(context,  MriModel model){
                   child: Row(
                     children: [
                       defaultButton(function: (){
-                        navigateTo(context, Details(model: model,));
+                        navigateTo(context, Details(model: model,patientModel:  patientModel));
                       }, text: "Details",width: 100,height: 25),
                       const Spacer(),
                       InkWell(
                         onTap: (){
-                          print("saved");
+                          AppCubit.get(context).upadteSave(
+                              datetime: model.date,
+                              name: patientModel.name,
+                              result: model.result,
+                              confidence: model.confidence,
+                              image: model.image,
+                              mrid: model.mrId
+                          );
                         },
                         child: SizedBox(
                             height: 35,
@@ -364,7 +372,8 @@ Widget buildResultItem(context,  MriModel model){
               ],
             ),
           ),flex: 2,),
-        Expanded(child: Container(
+        if(usermodel!.uId == patientModel.dId)
+          Expanded(child: Container(
           height: 137,
           decoration: BoxDecoration(
             //borderRadius: BorderRadiusDirectional.only(topEnd:Radius.circular(4),bottomEnd: Radius.circular(5)) ,
@@ -381,12 +390,13 @@ Widget buildResultItem(context,  MriModel model){
     ),
   );
 }
-Widget buildSavedItem(){
+Widget buildSavedItem(context, MriModel model, PatientModel patientModel){
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 20),
     child: Row(
       children: [
-        Expanded(
+        if(model.isSaved!)
+          Expanded(
           child: Container(
             height: 137,
             decoration: BoxDecoration(
@@ -429,7 +439,8 @@ Widget buildSavedItem(){
               ],
             ),
           ),flex: 2,),
-        Expanded(child: Container(
+        if(model.isSaved!)
+          Expanded(child: Container(
           height: 137,
           decoration: BoxDecoration(
             //borderRadius: BorderRadiusDirectional.only(topEnd:Radius.circular(4),bottomEnd: Radius.circular(5)) ,
@@ -451,7 +462,8 @@ Widget buildFolderItem(context,index, PatientModel model, MriModel mriModel){
     padding: const EdgeInsets.symmetric(horizontal: 20),
     child: Row(
       children: [
-        Expanded(
+        if(usermodel!.uId == model.dId)
+          Expanded(
           child: Container(
             height: 137,
             decoration: BoxDecoration(
@@ -489,7 +501,7 @@ Widget buildFolderItem(context,index, PatientModel model, MriModel mriModel){
                         print(model.name);
                         print(AppCubit.get(context).mriDetails[model.name]!);
 
-                        navigateTo(context, ResultName(mriModel: AppCubit.get(context).mriDetails[model.name], patientModel: [],));
+                        navigateTo(context, ResultName(mriModel: AppCubit.get(context).mriDetails[model.name],patientModel:model,));
                       }, text: "Open Folder",width: 130,height: 25),
                     ],
                   ),
@@ -497,7 +509,8 @@ Widget buildFolderItem(context,index, PatientModel model, MriModel mriModel){
               ],
             ),
           ),flex: 2,),
-        Expanded(child: Container(
+        if(usermodel!.uId == model.dId)
+          Expanded(child: Container(
           height: 137,
           decoration: BoxDecoration(
             //borderRadius: BorderRadiusDirectional.only(topEnd:Radius.circular(4),bottomEnd: Radius.circular(5)) ,

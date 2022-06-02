@@ -25,9 +25,9 @@ class Result extends StatelessWidget {
               ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context,index)=>buildFolderItem(context,index, cubit.patientModel[index], cubit.mriModel[index]),
+                  itemBuilder: (context,index)=>buildFolderItem(context,index, cubit.patientModels[index], cubit.mriModels[index]),
                   separatorBuilder: (context,index)=>const SizedBox(height: 15,),
-                  itemCount: cubit.patientModel.length),
+                  itemCount: cubit.patientModels.length),
             ],
           ),
         );
