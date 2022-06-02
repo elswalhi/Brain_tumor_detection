@@ -2,14 +2,18 @@ import 'package:brain_tumor/cubit/cubit/cubit.dart';
 import 'package:brain_tumor/cubit/states/states.dart';
 import 'package:brain_tumor/image_painter.dart';
 import 'package:brain_tumor/shared/colors/colors.dart';
+import 'package:brain_tumor/shared/component/component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../model/MriModel/MriModel.dart';
 import '../shared/const/const.dart';
 
 class Details extends StatefulWidget {
-  const Details({Key? key}) : super(key: key);
+  MriModel? model;
+  PatientModel? pmodel;
+   Details({Key? key,required this.model,required this.pmodel}) : super(key: key);
 
   @override
   State<Details> createState() => _DetailsState();
@@ -23,6 +27,7 @@ class _DetailsState extends State<Details> {
     return BlocConsumer<AppCubit,Appstates>(
       listener: (BuildContext context, state) {  },
       builder: (BuildContext context, Object? state) {
+        var cubit = AppCubit.get(context);
         return state is !GetUserLoading ? Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(70.0),
@@ -67,7 +72,7 @@ class _DetailsState extends State<Details> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  ImagePainter.network("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN26fBPdHpu9EHIbkHGAyHx5uIpSvW-gtmUw&usqp=CAU", key: _imageKey
+                  ImagePainter.network("${widget.model!.image}", key: _imageKey
                   ,   scalable: true,
                     height: 350,
                     width: double.infinity,
@@ -83,21 +88,21 @@ class _DetailsState extends State<Details> {
                         Row(
                           children: [
                             Text("Date : ",style: textStyle.copyWith(color:HexColor("#8A8A8A"),fontWeight: FontWeight.w400),),
-                            Text("13/2/2022  ",style: textStyle.copyWith(color:HexColor("#8A8A8A"),),),
+                            Text(widget.model!.date!,style: textStyle.copyWith(color:HexColor("#8A8A8A"),),),
                           ],
                         ),
                         const SizedBox(height: 10,),
                         Row(
                           children: [
                             Text("Folder name : ",style: textStyle.copyWith(color:HexColor("#8A8A8A"),fontWeight: FontWeight.w400),),
-                            Text("Folder Name  ",style: textStyle)
+                            Text("${widget.pmodel!.name!}",style: textStyle)
                           ],
                         ),
                         const SizedBox(height: 10,),
                         Row(
                           children: [
                             Text("Brain Tumor: ",style: textStyle.copyWith(color:HexColor("#8A8A8A"),fontWeight: FontWeight.w400),),
-                            Text("Positive",style: textStyle.copyWith(color: HexColor("#F41D1D"))),
+                            Text("${widget.model!.result}",style: textStyle.copyWith(color: HexColor("#F41D1D"))),
                           ],
                         ),
                         const SizedBox(height: 25,),
@@ -105,7 +110,7 @@ class _DetailsState extends State<Details> {
                           children: [
                             Text("Percentage: ",style: textStyle.copyWith(color:HexColor("#8A8A8A"),fontWeight: FontWeight.w400),),
                             const SizedBox(width: 47,),
-                            Text("85%",style: textStyle.copyWith(color: HexColor("#F41D1D"),fontSize: 40)),
+                            Text("${widget.model!.confidence!.floor()}%",style: textStyle.copyWith(color: cubit.resultColor(cubit.mriModel[myindex].confidence!.floor()),fontSize: 40)),
                           ],
                         ),
                       ],

@@ -8,6 +8,7 @@ import 'package:brain_tumor/module/AfterUpload/AfterUpload.dart';
 import 'package:brain_tumor/module/Result/result.dart';
 import 'package:brain_tumor/module/about/about.dart';
 import 'package:brain_tumor/module/saved/saved.dart';
+import 'package:brain_tumor/shared/colors/colors.dart';
 import 'package:brain_tumor/shared/component/component.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
@@ -17,6 +18,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
@@ -358,5 +360,15 @@ var imageLink;
 
 }
 
-
+  Color resultColor(var conf){
+    if (conf<50){
+      return maincolor;
+    }
+    else if (conf >50 && conf <=80){
+      return HexColor("#F4AB1D");
+    }
+    else{
+    return HexColor("#F41D1D");
+  }
+  }
 }

@@ -13,7 +13,8 @@ import '../uploadscreen/UploadScreen.dart';
 
 class ResultName extends StatelessWidget {
   List<MriModel>? mriModel;
-  ResultName({Key? key, required this.mriModel}) : super(key: key);
+  List<PatientModel>? patientModel;
+  ResultName({Key? key, required this.mriModel,required this.patientModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +69,7 @@ class ResultName extends StatelessWidget {
                 ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context,index)=>buildResultItem(context, mriModel![index]),
+                    itemBuilder: (context,index)=>buildResultItem(context, mriModel![index],patientModel![index]),
                     separatorBuilder: (context,index)=>const SizedBox(height: 15,),
                     itemCount: mriModel!.length
                 ),

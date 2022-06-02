@@ -304,7 +304,8 @@ class _checkboxState extends State<checkbox> {
     );
   }
 }
-Widget buildResultItem(context, MriModel model){
+var myindex;
+Widget buildResultItem(context,  MriModel model,PatientModel pmodel){
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 20),
     child: Row(
@@ -318,23 +319,23 @@ Widget buildResultItem(context, MriModel model){
             ),
             child: Column(
               children: [
+                // Padding(
+                //   padding: const EdgeInsets.all(10.0),
+                //   child: Row(
+                //     children: [
+                //       Text("Name : " ,style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 14,fontWeight: FontWeight.w400),),
+                //       const SizedBox(width: 10,),
+                //       Text("${model}",style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 16,fontWeight: FontWeight.w700 ),),
+                //     ],
+                //   ),
+                // ),
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Row(
-                    children: [
-                      Text("Name : " ,style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 14,fontWeight: FontWeight.w400),),
-                      const SizedBox(width: 10,),
-                      Text("${model.pId}",style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 16,fontWeight: FontWeight.w700 ),),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsetsDirectional.only(top: 5,bottom: 20,start: 10),
+                  padding: const EdgeInsetsDirectional.only(top: 40,bottom: 20,start: 10),
                   child: Row(
                     children: [
                       Text("Date : " ,style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 14,fontWeight: FontWeight.w400),),
                       const SizedBox(width: 10,),
-                      Text("13/2/2022",style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 16,fontWeight: FontWeight.w700 ),),
+                      Text(model.date!,style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 16,fontWeight: FontWeight.w700 ),),
                     ],
                   ),
                 ),
@@ -343,7 +344,7 @@ Widget buildResultItem(context, MriModel model){
                   child: Row(
                     children: [
                       defaultButton(function: (){
-                        navigateTo(context, Details());
+                        navigateTo(context, Details(model: model,pmodel:pmodel));
                       }, text: "Details",width: 100,height: 25),
                       const Spacer(),
                       InkWell(
@@ -373,7 +374,7 @@ Widget buildResultItem(context, MriModel model){
               top: BorderSide(color:HexColor("#D9D9D9"),width: 1),
             ),
           ),
-          child: Center(child: Text("87%",style: TextStyle(color: HexColor("#F4AB1D"),fontWeight: FontWeight.w700,fontSize: 35),)),
+          child: Center(child: Text("${model.confidence!.floor()}%",style: TextStyle(color: AppCubit.get(context).resultColor(model.confidence!.floor()),fontWeight: FontWeight.w700,fontSize: 35),)),
         ),
         ),
       ],
@@ -475,7 +476,7 @@ Widget buildFolderItem(context,index, PatientModel model, MriModel mriModel){
                     children: [
                       Text("Date : " ,style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 14,fontWeight: FontWeight.w400),),
                       const SizedBox(width: 10,),
-                      Text("13/2/2022",style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 16,fontWeight: FontWeight.w700 ),),
+                      Text("${mriModel.date}",style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 16,fontWeight: FontWeight.w700 ),),
                     ],
                   ),
                 ),
@@ -484,11 +485,11 @@ Widget buildFolderItem(context,index, PatientModel model, MriModel mriModel){
                   child: Row(
                     children: [
                       defaultButton(function: (){
-                        print(mriModel.pId);
+                        print(mriModel);
                         print(model.name);
                         print(AppCubit.get(context).mriDetails[model.name]!);
 
-                        navigateTo(context, ResultName(mriModel: AppCubit.get(context).mriDetails[model.name]));
+                        navigateTo(context, ResultName(mriModel: AppCubit.get(context).mriDetails[model.name], patientModel: [],));
                       }, text: "Open Folder",width: 130,height: 25),
                     ],
                   ),
@@ -506,7 +507,7 @@ Widget buildFolderItem(context,index, PatientModel model, MriModel mriModel){
               top: BorderSide(color:HexColor("#D9D9D9"),width: 1),
             ),
           ),
-          child: Center(child: Text("87%",style: TextStyle(color: HexColor("#F4AB1D"),fontWeight: FontWeight.w700,fontSize: 35),)),
+          child: Center(child: Text("${mriModel.confidence!.floor()}%",style: TextStyle(color: AppCubit.get(context).resultColor(mriModel.confidence!.floor()) ,fontWeight: FontWeight.w700,fontSize: 35),)),
         ),
         ),
       ],
