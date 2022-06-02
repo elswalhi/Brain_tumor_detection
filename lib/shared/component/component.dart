@@ -305,7 +305,7 @@ class _checkboxState extends State<checkbox> {
   }
 }
 var myindex;
-Widget buildResultItem(context,  MriModel model,PatientModel pmodel){
+Widget buildResultItem(context,  MriModel model){
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 20),
     child: Row(
@@ -344,7 +344,7 @@ Widget buildResultItem(context,  MriModel model,PatientModel pmodel){
                   child: Row(
                     children: [
                       defaultButton(function: (){
-                        navigateTo(context, Details(model: model,pmodel:pmodel));
+                        navigateTo(context, Details(model: model,));
                       }, text: "Details",width: 100,height: 25),
                       const Spacer(),
                       InkWell(

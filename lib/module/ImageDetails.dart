@@ -12,8 +12,7 @@ import '../shared/const/const.dart';
 
 class Details extends StatefulWidget {
   MriModel? model;
-  PatientModel? pmodel;
-   Details({Key? key,required this.model,required this.pmodel}) : super(key: key);
+   Details({Key? key,required this.model}) : super(key: key);
 
   @override
   State<Details> createState() => _DetailsState();
@@ -95,7 +94,7 @@ class _DetailsState extends State<Details> {
                         Row(
                           children: [
                             Text("Folder name : ",style: textStyle.copyWith(color:HexColor("#8A8A8A"),fontWeight: FontWeight.w400),),
-                            Text("${widget.pmodel!.name!}",style: textStyle)
+                            Text("${widget.model!.isSaved}",style: textStyle)
                           ],
                         ),
                         const SizedBox(height: 10,),
@@ -110,7 +109,7 @@ class _DetailsState extends State<Details> {
                           children: [
                             Text("Percentage: ",style: textStyle.copyWith(color:HexColor("#8A8A8A"),fontWeight: FontWeight.w400),),
                             const SizedBox(width: 47,),
-                            Text("${widget.model!.confidence!.floor()}%",style: textStyle.copyWith(color: cubit.resultColor(cubit.mriModel[myindex].confidence!.floor()),fontSize: 40)),
+                            Text("${widget.model!.confidence!.floor()}%",style: textStyle.copyWith(color: cubit.resultColor(widget.model!.confidence!.floor()),fontSize: 40)),
                           ],
                         ),
                       ],
