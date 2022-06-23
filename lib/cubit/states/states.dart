@@ -21,6 +21,8 @@ class ChangeSaved extends Appstates{}
 
 class uploadImageSuccess extends Appstates{}
 
+class Refresh extends Appstates{}
+
 class uploadImageError extends Appstates{}
 
 class getResultLoading extends Appstates{}

@@ -22,10 +22,9 @@ class SavedScreen extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 20.0),
           child: ListView.separated(
-
-                itemBuilder: (context,index)=>buildSavedItem( context,cubit.mriModels[index],cubit.patientModels[index]),
-              separatorBuilder: (context,index)=>const SizedBox(height: 15,),
-              itemCount: cubit.mriModels.length),
+              itemBuilder: (context,index)=>buildSavedItem( context,cubit.mriModels[index],cubit.patientModels[index]),
+              separatorBuilder: (context,index)=> const SizedBox(height: 5,),
+              itemCount: cubit.mriModels.length ?? 0),
         );
 
       } ,

@@ -25,9 +25,9 @@ class HomeScreen extends StatelessWidget {
 
             child: AppBar(
               leadingWidth: 50,
-              leading:const Padding(
-                padding: const EdgeInsetsDirectional.only(start: 15,top: 5),
-                child: const CircleAvatar(child: const Text("L",style: TextStyle(fontSize: 20),),backgroundColor: Colors.white,radius: 23,),
+              leading: Padding(
+                padding:  const EdgeInsetsDirectional.only(start: 15,top: 5),
+                child:  CircleAvatar(child:braini ,backgroundColor: Colors.white,radius: 27,),
               ) ,
               title: Padding(
                 padding: const EdgeInsetsDirectional.only(top: 10),

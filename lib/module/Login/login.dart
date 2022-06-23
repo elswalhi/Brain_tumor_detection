@@ -1,6 +1,6 @@
 
 import 'package:brain_tumor/shared/colors/colors.dart';
-import 'package:conditional_builder/conditional_builder.dart';
+import 'package:buildcondition/buildcondition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -46,7 +46,7 @@ class LoginScreen extends StatelessWidget {
                   child: Form(
                     key: formkey,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         //text
                         Text("Login"
@@ -104,7 +104,7 @@ class LoginScreen extends StatelessWidget {
                             child: Text(cubit.passError!,style:  TextStyle(color: HexColor("#Da1d19"),fontSize: 12),),
                           ),
                         const SizedBox(height: 25,),
-                        ConditionalBuilder(
+                        BuildCondition(
                           condition: state is! LoginLoading,
                           builder:(context)=> defaultButton(function: (){
                             cubit.ChangeError();

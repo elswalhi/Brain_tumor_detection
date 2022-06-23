@@ -38,7 +38,7 @@ class Register extends StatelessWidget {
                 child: Form(
                   key: formkey,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       //text
                       Text("Sign Up"

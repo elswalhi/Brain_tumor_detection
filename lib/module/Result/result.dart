@@ -17,7 +17,7 @@ class Result extends StatelessWidget {
       listener:(context,sate){},
       builder:(context,sate){
         var cubit =AppCubit.get(context);
-        return SingleChildScrollView(
+        return cubit.mriModels.isNotEmpty? SingleChildScrollView(
           child: Column(
             children: [
               buildStaticsItem(),
@@ -26,11 +26,11 @@ class Result extends StatelessWidget {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context,index)=>buildFolderItem(context,index, cubit.patientModels[index], cubit.mriModels[index]),
-                  separatorBuilder: (context,index)=>const SizedBox(height: 15,),
+                  separatorBuilder: (context,index)=>const SizedBox(height: 5,),
                   itemCount: cubit.patientModels.length),
             ],
           ),
-        );
+        ): const Center(child: CircularProgressIndicator());
       } ,
     );
   }

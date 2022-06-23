@@ -16,7 +16,7 @@ UserModel? usermodel ;
 final Widget savedi = SvgPicture.string('<svg xmlns="http://www.w3.org/2000/svg" height="48" width="48"><path d="M8.9 43.7V9.25Q8.9 7.4 10.275 6.025Q11.65 4.65 13.45 4.65H34.55Q36.35 4.65 37.75 6.025Q39.15 7.4 39.15 9.25V43.7L24 37.25Z"/></svg>'
 ,color: textcolor,
 );final Widget saved = SvgPicture.string('<svg xmlns="http://www.w3.org/2000/svg" height="48" width="48"><path d="M8.9 43.7V9.25Q8.9 7.4 10.275 6.025Q11.65 4.65 13.45 4.65H34.55Q36.35 4.65 37.75 6.025Q39.15 7.4 39.15 9.25V43.7L24 37.25Z"/></svg>'
-    ,color: unactive
+    ,color: unactive,
 );
 final Widget homei = SvgPicture.string('<svg xmlns="http://www.w3.org/2000/svg" height="48" width="48"><path d="M9.6 40.35V24.4H2.9L24 5.45L33.55 13.85V8.75H38.4V18.35L45.1 24.4H38.4V40.35H28.5V28.8H19.5V40.35ZM19.5 20.45H28.5Q28.5 18.6 27.175 17.4Q25.85 16.2 24 16.2Q22.2 16.2 20.85 17.4Q19.5 18.6 19.5 20.45Z"/></svg>', color: textcolor,
 );
@@ -81,4 +81,4 @@ var date = new DateTime.now().toString();
 
 var dateParse = DateTime.parse(date);
 
-var formattedDate = "${dateParse.day}-${dateParse.month}-${dateParse.year}";
+var formattedDate = "${dateParse.day}/${dateParse.month}/${dateParse.year}";

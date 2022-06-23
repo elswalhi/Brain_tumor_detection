@@ -177,7 +177,8 @@ class UploadScreen extends StatelessWidget {
                                       if(
                                       key.currentState!.validate()
                                       ){
-                                        cubit.loadAssets(context);
+                                        cubit.getImage(context);
+                                        // cubit.loadAssets(context);
                                       }
                                       // cubit.selectImages();
                                       // cubit.mriImage==null? cubit.selectImages():navigateTo(context, ProcessScreen());
