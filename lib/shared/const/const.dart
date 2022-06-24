@@ -70,6 +70,9 @@ final Widget result = SvgPicture.string('<svg xmlns="http://www.w3.org/2000/svg"
 final Widget resulti = SvgPicture.string('<svg xmlns="http://www.w3.org/2000/svg" height="48" width="48"><path d="M5.3 17.75V9.1H13.95V17.75ZM16.25 17.75V9.1H42.75V17.75ZM16.25 28.35V19.7H42.75V28.35ZM16.25 39.05V30.35H42.75V39.05ZM5.3 39.05V30.35H13.95V39.05ZM5.3 28.35V19.7H13.95V28.35Z"/></svg>'
   ,color: maincolor
 );
+TextStyle h1 = TextStyle(fontSize: 25,fontWeight:FontWeight.w700,color: maincolor);
+TextStyle memberName = TextStyle(fontSize: 14,fontWeight:FontWeight.w700,color: maincolor);
+TextStyle abouttext =TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: HexColor("#8A8A8A"));
 
 TextStyle textStyle =TextStyle(
   fontSize: 16,
