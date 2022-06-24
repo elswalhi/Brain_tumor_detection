@@ -20,27 +20,42 @@ class SavedScreen extends StatelessWidget {
       listener:(context,state){},
       builder:(context,state){
         var cubit =AppCubit.get(context);
-        return Column(
-          children: [
-            if( state is UpdateSaveTrueLoading || state is getPatientLoading || state is getPatientSuccess)
-              SizedBox(height: 20,),
-            if( state is UpdateSaveTrueLoading || state is getPatientLoading || state is getPatientSuccess)
-              LinearProgressIndicator(),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              child: BuildCondition(
-                condition: cubit.mriSave.isNotEmpty,
-                builder: (context) => ListView.separated(
-                  shrinkWrap: true,
-                    itemBuilder: (context,index)=>buildSavedItem( context,state, cubit.mriSave[index]),
-                    separatorBuilder: (context,index)=> const SizedBox(height: 5,),
-                    itemCount: cubit.mriSave.length
+        return BuildCondition(
+          condition: cubit.mriSave.isNotEmpty,
+          builder:(context)=> Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              if( state is UpdateSaveTrueLoading || state is getPatientLoading || state is getPatientSuccess)
+                SizedBox(height: 20,),
+              if( state is UpdateSaveTrueLoading || state is getPatientLoading || state is getPatientSuccess)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: LinearProgressIndicator(),
                 ),
-                fallback: (context) => Center(child: CircularProgressIndicator()),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child:ListView.separated(
+                    shrinkWrap: true,
+                      itemBuilder: (context,index)=>buildSavedItem( context,state, cubit.mriSave[index]),
+                      separatorBuilder: (context,index)=> const SizedBox(height: 5,),
+                      itemCount: cubit.mriSave.length
+                  ),
+                ),
+            ],
+          ),
+          fallback:(context)=> Center(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 200.0),
+              child: Column(
+                children: [
+                  SizedBox(height: 150,width: 150,child: saved),
+                  SizedBox(height: 5,),
+                  Text("NO Data Saved",style: textStyle.copyWith(color: Colors.grey),),
+                ],
               ),
             ),
-          ],
+          ),
         );
 
       } ,

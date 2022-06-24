@@ -30,7 +30,7 @@ class ResultName extends StatelessWidget {
               title: const Padding(
                 padding: EdgeInsetsDirectional.only(top: 10),
                 child: Text(
-                  "Result name",
+                  "Result ",
                   style: TextStyle(fontSize: 16, color: Colors.white),
                 ),
               ),
