@@ -20,17 +20,27 @@ class SavedScreen extends StatelessWidget {
       listener:(context,state){},
       builder:(context,state){
         var cubit =AppCubit.get(context);
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20.0),
-          child: BuildCondition(
-            condition: cubit.mriSave.isNotEmpty,
-            builder: (context) => ListView.separated(
-                itemBuilder: (context,index)=>buildSavedItem( context,state, cubit.mriSave[index]),
-                separatorBuilder: (context,index)=> const SizedBox(height: 5,),
-                itemCount: cubit.mriSave.length
+        return Column(
+          children: [
+            if( state is UpdateSaveTrueLoading || state is getPatientLoading || state is getPatientSuccess)
+              SizedBox(height: 20,),
+            if( state is UpdateSaveTrueLoading || state is getPatientLoading || state is getPatientSuccess)
+              LinearProgressIndicator(),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: BuildCondition(
+                condition: cubit.mriSave.isNotEmpty,
+                builder: (context) => ListView.separated(
+                  shrinkWrap: true,
+                    itemBuilder: (context,index)=>buildSavedItem( context,state, cubit.mriSave[index]),
+                    separatorBuilder: (context,index)=> const SizedBox(height: 5,),
+                    itemCount: cubit.mriSave.length
+                ),
+                fallback: (context) => Center(child: CircularProgressIndicator()),
+              ),
             ),
-            fallback: (context) => Center(child: CircularProgressIndicator()),
-          ),
+          ],
         );
 
       } ,

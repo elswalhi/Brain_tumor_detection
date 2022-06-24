@@ -506,107 +506,99 @@ Widget buildResentItem(context,  MriModel model, PatientModel patientModel){
 Widget buildSavedItem(context,state, MriModel model){
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 20),
-    child: Column(
+    child: Row(
       children: [
-        if( state is UpdateSaveTrueLoading || state is getPatientLoading || state is getPatientSuccess)
-          LinearProgressIndicator(),
-        if( state is UpdateSaveTrueLoading || state is getPatientLoading || state is getPatientSuccess)
-          SizedBox(height: 20,),
-        Row(
-          children: [
-            // if(usermodel!.uId == patientModel.dId)
-            // if(model.isSaved!)
-            Expanded(
-              child: Container(
-                height: 137,
-                decoration: BoxDecoration(
-                  borderRadius:const BorderRadiusDirectional.only(topStart:Radius.circular(4),bottomStart: Radius.circular(5)) ,
-                  border: Border.all(color:HexColor("#D9D9D9"),width: 1 ),
+        // if(usermodel!.uId == patientModel.dId)
+        // if(model.isSaved!)
+        Expanded(
+          child: Container(
+            height: 137,
+            decoration: BoxDecoration(
+              borderRadius:const BorderRadiusDirectional.only(topStart:Radius.circular(4),bottomStart: Radius.circular(5)) ,
+              border: Border.all(color:HexColor("#D9D9D9"),width: 1 ),
+            ),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    children: [
+                      Text("Name : " ,style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 14,fontWeight: FontWeight.w400),),
+                      const SizedBox(width: 10,),
+                      Text("${model.patientName}",style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 16,fontWeight: FontWeight.w700 ),),
+                    ],
+                  ),
                 ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        children: [
-                          Text("Name : " ,style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 14,fontWeight: FontWeight.w400),),
-                          const SizedBox(width: 10,),
-                          Text("${model.patientName}",style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 16,fontWeight: FontWeight.w700 ),),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsetsDirectional.only(top: 5,bottom: 20,start: 10),
-                      child: Row(
-                        children: [
-                          Text("Date : " ,style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 14,fontWeight: FontWeight.w400),),
-                          const SizedBox(width: 10,),
-                          Text("${model.date}",style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 16,fontWeight: FontWeight.w700 ),),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsetsDirectional.only(start: 10),
-                      child: Row(
-                        children: [
-                          defaultButton(function: (){
-                            navigateTo(context, Details(model: model));
-                          }, text: "Details",width: 100,height: 25),
-                          const Spacer(),
-                          InkWell(
-                              onTap: (){
-                                if(model.isSaved == true){
-                                  AppCubit.get(context).upadteSave(
-                                      datetime: model.date,
-                                      save: false,
-                                      name: model.patientName,
-                                      result: model.result,
-                                      confidence: model.confidence,
-                                      image: model.image,
-                                      mrid: model.mrId
-                                  );
-                                }else{
-                                  AppCubit.get(context).upadteSave(
-                                      datetime: model.date,
-                                      save: true,
-                                      name: model.patientName,
-                                      result: model.result,
-                                      confidence: model.confidence,
-                                      image: model.image,
-                                      mrid: model.mrId
-                                  );
-                                }
-                              },
-                              child: SizedBox(
-                                  height: 35,
-                                  child:  model.isSaved!?savedi : saved),
-                            ),
+                Padding(
+                  padding: const EdgeInsetsDirectional.only(top: 5,bottom: 20,start: 10),
+                  child: Row(
+                    children: [
+                      Text("Date : " ,style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 14,fontWeight: FontWeight.w400),),
+                      const SizedBox(width: 10,),
+                      Text("${model.date}",style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 16,fontWeight: FontWeight.w700 ),),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsetsDirectional.only(start: 10),
+                  child: Row(
+                    children: [
+                      defaultButton(function: (){
+                        navigateTo(context, Details(model: model));
+                      }, text: "Details",width: 100,height: 25),
+                      const Spacer(),
+                      InkWell(
+                          onTap: (){
+                            if(model.isSaved == true){
+                              AppCubit.get(context).upadteSave(
+                                  datetime: model.date,
+                                  save: false,
+                                  name: model.patientName,
+                                  result: model.result,
+                                  confidence: model.confidence,
+                                  image: model.image,
+                                  mrid: model.mrId
+                              );
+                            }else{
+                              AppCubit.get(context).upadteSave(
+                                  datetime: model.date,
+                                  save: true,
+                                  name: model.patientName,
+                                  result: model.result,
+                                  confidence: model.confidence,
+                                  image: model.image,
+                                  mrid: model.mrId
+                              );
+                            }
+                          },
+                          child: SizedBox(
+                              height: 35,
+                              child:  model.isSaved!?savedi : saved),
+                        ),
 
-                          // IconButton(onPressed: (){
-                          //   print("s");
-                          // }, icon: saved,iconSize: 3,)
-                        ],
-                      ),
-                    ),
-                  ],
+                      // IconButton(onPressed: (){
+                      //   print("s");
+                      // }, icon: saved,iconSize: 3,)
+                    ],
+                  ),
                 ),
-              ),flex: 2,),
-            // if(usermodel!.uId == patientModel.dId)
-            // // if(model.isSaved!)
-            Expanded(child: Container(
-              height: 137,
-              decoration: BoxDecoration(
-                //borderRadius: BorderRadiusDirectional.only(topEnd:Radius.circular(4),bottomEnd: Radius.circular(5)) ,
-                border: BorderDirectional(
-                  end: BorderSide(color:HexColor("#D9D9D9"),width: 1),
-                  bottom: BorderSide(color:HexColor("#D9D9D9"),width: 1),
-                  top: BorderSide(color:HexColor("#D9D9D9"),width: 1),
-                ),
-              ),
-                child: Center(child: Text("${model.confidence!.floor()}%",style: TextStyle(color: AppCubit.get(context).resultColor(model.confidence!.floor()),fontWeight: FontWeight.w700,fontSize: 35),)),
+              ],
             ),
+          ),flex: 2,),
+        // if(usermodel!.uId == patientModel.dId)
+        // // if(model.isSaved!)
+        Expanded(child: Container(
+          height: 137,
+          decoration: BoxDecoration(
+            //borderRadius: BorderRadiusDirectional.only(topEnd:Radius.circular(4),bottomEnd: Radius.circular(5)) ,
+            border: BorderDirectional(
+              end: BorderSide(color:HexColor("#D9D9D9"),width: 1),
+              bottom: BorderSide(color:HexColor("#D9D9D9"),width: 1),
+              top: BorderSide(color:HexColor("#D9D9D9"),width: 1),
             ),
-          ],
+          ),
+            child: Center(child: Text("${model.confidence!.floor()}%",style: TextStyle(color: AppCubit.get(context).resultColor(model.confidence!.floor()),fontWeight: FontWeight.w700,fontSize: 35),)),
+        ),
         ),
       ],
     ),
