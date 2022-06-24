@@ -1,12 +1,12 @@
 import 'package:brain_tumor/cubit/cubit/cubit.dart';
 import 'package:brain_tumor/cubit/states/states.dart';
+import 'package:buildcondition/buildcondition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../shared/colors/colors.dart';
 import '../../shared/component/component.dart';
-import '../../shared/const/const.dart';
 
 class Recent extends StatelessWidget {
   const Recent({Key? key}) : super(key: key);
@@ -19,44 +19,55 @@ class Recent extends StatelessWidget {
       return
       Scaffold(
         body: SingleChildScrollView(
+          physics:const BouncingScrollPhysics(),
           child: Column(
-            mainAxisSize: MainAxisSize.max,
             children: [
               buildStaticsItem(),
+              defaultButton(function: (){
+                // print("lenght mri ${cubit.recentModels.length}");
+                // print("lenght mri ${cubit.recentModels.last.patientName}");
+                print("save patient ${cubit.mriSave.length}");
+              }, text: "Login"),
               const SizedBox(height: 10,),
               Container(
-                height:  cubit.mriModels.length>=3 ? null:500,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   boxShadow:const [
                     BoxShadow(
                         color: Colors.black,
-                        blurRadius: 10.0, // soften the shadow
-                        spreadRadius: .3, //extend the shadow
+                        blurRadius: 20.0, // soften the shadow
+                        spreadRadius: 5.0, //extend the shadow
                         offset: Offset(
-                          1.0, // Move to right 10  horizontally
+                          15.0, // Move to right 10  horizontally
                           0.0, // M
                         ) )]  ,
                   borderRadius: const BorderRadius.only(topRight:Radius.circular(50),topLeft: Radius.circular(50) ),
                   color:HexColor("#FFFFFF") ,
                 ),
-                child: cubit.mriModels.isNotEmpty? Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
                   children: [
                     Padding(
                       padding: const EdgeInsetsDirectional.only(top: 30,bottom: 20),
-                      child: Text("Recent Results",style: TextStyle(color: textcolor,fontSize: 25,fontWeight: FontWeight.w700),),
+                      child: InkWell(
+                        onTap: (){
+                          AppCubit.get(context).getPatient();
+                        },
+                          child: Text("Recent Results",style: TextStyle(color: textcolor,fontSize: 25,fontWeight: FontWeight.w700),)),
                     ),
-                     ListView.separated(
-                      shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context,index)=>buildResultItem(context, cubit.mriModels[index],cubit.patientModels[index]),
-                        separatorBuilder: (context,index)=>const SizedBox(height: 5,),
-                        itemCount: cubit.patientModels.length
+                    BuildCondition(
+                      condition: cubit.mriModels.isNotEmpty,
+                      builder: (context) => ListView.separated(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context,index)=>buildResultItem(context, cubit.mriModels[index]),
+                          separatorBuilder: (context,index)=>const SizedBox(height: 15,),
+                          itemCount: cubit.mriModels.length
+                      ),
+                      fallback: (context) => CircularProgressIndicator(),
                     ),
                   ],
-                ): const Center(child: Text("No Data Yet")),
+                ),
               ),
             ],
           ),

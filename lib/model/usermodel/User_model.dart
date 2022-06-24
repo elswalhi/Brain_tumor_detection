@@ -1,3 +1,5 @@
+import '../MriModel/MriModel.dart';
+
 class UserModel
 {
   String? name;
@@ -7,6 +9,7 @@ class UserModel
   String? image;
   String? gender;
   bool? isEmailVerified;
+  PatientModel? patientModel;
   UserModel({
     this.email,
     this.job,

@@ -69,7 +69,7 @@ class ResultName extends StatelessWidget {
                 ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context,index)=>buildResultItem(context, mriModel![index], patientModel!),
+                    itemBuilder: (context,index)=>buildResultItem(context, mriModel![index]),
                     separatorBuilder: (context,index)=>const SizedBox(height: 15,),
                     itemCount: mriModel!.length
                 ),

@@ -11,6 +11,7 @@ import 'package:brain_tumor/shared/colors/colors.dart';
 import 'package:brain_tumor/shared/component/component.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:brain_tumor/cubit/states/states.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -125,6 +126,7 @@ class AppCubit extends Cubit<Appstates> {
       final value =
           await FirebaseFirestore.instance.collection('users').doc(uId).get();
       usermodel = UserModel.fromJson(value.data()!);
+      getPatient();
       emit(GetUserSuccess());
     } catch (error) {
       print("get Error is $error");
@@ -165,22 +167,24 @@ class AppCubit extends Cubit<Appstates> {
     );
     MriModel mriModel=MriModel(
       confidence: confidence,
+      patientName: nameController.text,
       image: image,
       isSaved: false,
       result: result,
       date: datetime,
     );
-    FirebaseFirestore.instance
+    FirebaseFirestore.instance.collection('users').doc(usermodel!.uId)
         .collection("patient")
         .doc(nameController.text).set(patientModel.toMap())
         .then((value) {
-          FirebaseFirestore.instance
+          FirebaseFirestore.instance.collection('users').doc(usermodel!.uId)
           .collection('patient')
           .doc(nameController.text)
           .collection('Mri')
           .add(mriModel.toMap())
           .then((value) {
             updatePatient(
+              pName: nameController.text,
               confidence: confidence,
               datetime: datetime,
               image: image,
@@ -203,6 +207,7 @@ class AppCubit extends Cubit<Appstates> {
 
   void updatePatient({
     required String datetime,
+    required String pName,
     required bool isSave,
     required String result,
     required double confidence,
@@ -216,17 +221,18 @@ class AppCubit extends Cubit<Appstates> {
     );
     MriModel mriModel=MriModel(
       confidence: confidence,
+      patientName: pName,
       image: image,
       isSaved: isSave,
       result: result,
       date: datetime,
       mrId: mrid,
     );
-    FirebaseFirestore.instance
+    FirebaseFirestore.instance.collection('users').doc(usermodel!.uId)
         .collection("patient")
         .doc(nameController.text).update(patientModel.toMap())
         .then((value) {
-      FirebaseFirestore.instance
+      FirebaseFirestore.instance.collection('users').doc(usermodel!.uId)
           .collection('patient')
           .doc(nameController.text)
           .collection('Mri')
@@ -265,24 +271,24 @@ class AppCubit extends Cubit<Appstates> {
       );
       MriModel mriModel=MriModel(
         confidence: confidence,
+        patientName: name,
         image: image,
         isSaved: isSaved,
         result: result,
         date: datetime,
         mrId: mrid,
       );
-      FirebaseFirestore.instance
+      FirebaseFirestore.instance.collection('users').doc(usermodel!.uId)
           .collection("patient")
           .doc(name).update(patientModel.toMap())
           .then((value) {
-        FirebaseFirestore.instance
+        FirebaseFirestore.instance.collection('users').doc(usermodel!.uId)
             .collection('patient')
             .doc(name)
             .collection('Mri')
             .doc(mrid).update(mriModel.toMap())
-            .then((value) {
-              patientModels = [];
-              mriModels = [];
+            .then((v) {
+              isSaved = !isSaved;
               getPatient();
         })
             .catchError((error) {
@@ -292,7 +298,8 @@ class AppCubit extends Cubit<Appstates> {
         print("Error of patint is $error");
         emit(UpdateSaveError());
       });
-    }else{
+    }
+    else{
       emit(UpdateSaveLoading());
       PatientModel patientModel = PatientModel(
         name: name,
@@ -300,24 +307,23 @@ class AppCubit extends Cubit<Appstates> {
       );
       MriModel mriModel=MriModel(
         confidence: confidence,
+        patientName: name,
         image: image,
         isSaved: false,
         result: result,
         date: datetime,
         mrId: mrid,
       );
-      FirebaseFirestore.instance
+      FirebaseFirestore.instance.collection('users').doc(usermodel!.uId)
           .collection("patient")
           .doc(name).update(patientModel.toMap())
           .then((value) {
-        FirebaseFirestore.instance
+        FirebaseFirestore.instance.collection('users').doc(usermodel!.uId)
             .collection('patient')
             .doc(name)
             .collection('Mri')
             .doc(mrid).update(mriModel.toMap())
             .then((value) {
-          patientModels = [];
-          mriModels = [];
           emit(UpdateSaveSuccess());
           getPatient();
         })
@@ -333,32 +339,91 @@ class AppCubit extends Cubit<Appstates> {
 
   List<PatientModel> patientModels = [];
   List<MriModel> mriModels = [];
+  List<MriModel> recentModels = [];
+  List<MriModel> mriSave = [];
   List<String> mrIdList = [];
+  List<String?> resultList = [];
   Map<String, List<MriModel>> mriDetails = {};
-  void getPatient(){
+  // void getPatient(){
+  //   emit(getPatientLoading());
+  //   FirebaseFirestore.instance
+  //       .collection('patient')
+  //       .get().then((value) {
+  //         value.docs.forEach((patientId) {
+  //           patientModels.add(PatientModel.fromJson(patientId.data()));
+  //           mriDetails.addAll({patientId.id:[]});
+  //           patientId.reference.collection('Mri').get().then((value) {
+  //             value.docs.forEach((element) {
+  //               // print(" ssssssssssssssssss ${patientId.id}");
+  //               mriModels.forEach((elements) {
+  //
+  //                 // if(patientId.id == elements.patientName){
+  //                 //
+  //                 //   // print("user ${usermodel!.uId}");
+  //                 //   // recentModels.add(elements);
+  //                 // }
+  //
+  //               });
+  //               mriModels.forEach((e) {
+  //                 if(e.isSaved == true && patientId.id == usermodel!.uId){
+  //                   mriSave.add(e);
+  //                 }
+  //               });
+  //               mriDetails[patientId.id]!.add(MriModel.fromJson(element.data()));
+  //               mrIdList.add(element.id);
+  //               mriModels.add(MriModel.fromJson(element.data()));
+  //             });
+  //           });
+  //         });
+  //         print(mrIdList);
+  //
+  //         emit(getPatientSuccess());
+  //   }).catchError((error) {
+  //         print(error.toString());
+  //         emit(getPatientError());
+  //   });
+  // }
+
+
+
+  void getPatient() async{
+
     emit(getPatientLoading());
-    FirebaseFirestore.instance
-        .collection('patient')
-        .get().then((value) {
+    patientModels = [];
+    mriModels = [];
+    await FirebaseFirestore.instance.collection('users').doc(usermodel!.uId)
+          .get().then((value) {
+        value.reference.collection('patient')
+            .get().then((value) {
           value.docs.forEach((patientId) {
             patientModels.add(PatientModel.fromJson(patientId.data()));
             mriDetails.addAll({patientId.id:[]});
             patientId.reference.collection('Mri').get().then((value) {
               value.docs.forEach((element) {
-                //print(element.id);
                 mriDetails[patientId.id]!.add(MriModel.fromJson(element.data()));
                 mrIdList.add(element.id);
                 mriModels.add(MriModel.fromJson(element.data()));
+                print("mrimpd ${mriModels.length}");
               });
+              mriSave = [];
+              mriModels.forEach((e) {
+                if(e.isSaved == true){
+                  mriSave.add(e);
+                }
+                print("mrisave ${mriSave.length}");
+              });
+              emit(getMriSuccess());
             });
           });
-          print(mrIdList);
-          emit(getPatientSuccess());
-    }).catchError((error) {
-          print(error.toString());
-          emit(getPatientError());
-    });
+
+        });
+        emit(getPatientSuccess());
+      }).catchError((error) {
+        print("errrrrrrrrrror  ${error.toString()}");
+        emit(getPatientError());
+      });
   }
+
 
 var imageLink;
   List<File> ImageFile = [];
@@ -387,7 +452,8 @@ var imageLink;
   List<PatientModel> processInfo=[];
   void getProcessInfo(){
     emit(GetPostsLoading());
-    FirebaseFirestore.instance.collection('patient').doc().get().
+    FirebaseFirestore.instance
+        .collection('patient').doc().get().
         then((value) {
       processInfo.add(PatientModel.fromJson(value.data()!));
       print(value);

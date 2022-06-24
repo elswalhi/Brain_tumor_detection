@@ -4,6 +4,11 @@ class InitialState extends Appstates {}
 
 class testState extends Appstates{}
 
+class getMriSuccess extends Appstates{}
+class getMriSaveLoading extends Appstates{}
+class getMriSaveSuccess extends Appstates{}
+
+
 class getPatientLoading extends Appstates{}
 class getPatientSuccess extends Appstates{}
 class getPatientError extends Appstates{}

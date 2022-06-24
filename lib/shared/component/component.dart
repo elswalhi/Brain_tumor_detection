@@ -304,12 +304,12 @@ class _checkboxState extends State<checkbox> {
     );
   }
 }
-Widget buildResultItem(context,  MriModel model, PatientModel patientModel){
+Widget buildResultItem(context,  MriModel model){
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 20),
     child: Row(
       children: [
-        if(usermodel!.uId == patientModel.dId)
+        // if(usermodel!.uId == patientModel.dId)
           Expanded(
           child: Container(
             height: 137,
@@ -325,7 +325,7 @@ Widget buildResultItem(context,  MriModel model, PatientModel patientModel){
                     children: [
                       Text("Name : " ,style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 14,fontWeight: FontWeight.w400),),
                       const SizedBox(width: 10,),
-                      Text("${patientModel.name}",style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 16,fontWeight: FontWeight.w700 ),),
+                      Text("${model.patientName}",style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 16,fontWeight: FontWeight.w700 ),),
                     ],
                   ),
                 ),
@@ -344,14 +344,14 @@ Widget buildResultItem(context,  MriModel model, PatientModel patientModel){
                   child: Row(
                     children: [
                       defaultButton(function: (){
-                        navigateTo(context, Details(model: model,patientModel:  patientModel));
+                        navigateTo(context, Details(model: model));
                       }, text: "Details",width: 100,height: 25),
                       const Spacer(),
                       InkWell(
                         onTap: (){
                           AppCubit.get(context).upadteSave(
                               datetime: model.date,
-                              name: patientModel.name,
+                              name: model.patientName,
                               result: model.result,
                               confidence: model.confidence,
                               image: model.image,
@@ -371,7 +371,7 @@ Widget buildResultItem(context,  MriModel model, PatientModel patientModel){
               ],
             ),
           ),flex: 2,),
-        if(usermodel!.uId == patientModel.dId)
+        // if(usermodel!.uId == patientModel.dId)
           Expanded(child: Container(
           height: 137,
           decoration: BoxDecoration(
@@ -429,14 +429,14 @@ Widget buildResentItem(context,  MriModel model, PatientModel patientModel){
                   child: Row(
                     children: [
                       defaultButton(function: (){
-                        navigateTo(context, Details(model: model,patientModel:  patientModel));
+                        navigateTo(context, Details(model: model));
                       }, text: "Details",width: 100,height: 25),
                       const Spacer(),
                       InkWell(
                         onTap: (){
                           AppCubit.get(context).upadteSave(
                               datetime: model.date,
-                              name: patientModel.name,
+                              name: model.patientName,
                               result: model.result,
                               confidence: model.confidence,
                               image: model.image,
@@ -474,13 +474,13 @@ Widget buildResentItem(context,  MriModel model, PatientModel patientModel){
     ),
   );
 }
-Widget buildSavedItem(context, MriModel model, PatientModel patientModel){
+Widget buildSavedItem(context, MriModel model){
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 20),
     child: Row(
       children: [
-        if(usermodel!.uId == patientModel.dId)
-        if(model.isSaved!)
+        // if(usermodel!.uId == patientModel.dId)
+        // if(model.isSaved!)
           Expanded(
           child: Container(
             height: 137,
@@ -496,7 +496,7 @@ Widget buildSavedItem(context, MriModel model, PatientModel patientModel){
                     children: [
                       Text("Name : " ,style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 14,fontWeight: FontWeight.w400),),
                       const SizedBox(width: 10,),
-                      Text("${patientModel.name}",style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 16,fontWeight: FontWeight.w700 ),),
+                      Text("${model.patientName}",style: TextStyle(color:HexColor("#8A8A8A"),fontSize: 16,fontWeight: FontWeight.w700 ),),
                     ],
                   ),
                 ),
@@ -515,7 +515,7 @@ Widget buildSavedItem(context, MriModel model, PatientModel patientModel){
                   child: Row(
                     children: [
                       defaultButton(function: (){
-                        navigateTo(context, Details(model: model,patientModel:  patientModel));
+                        navigateTo(context, Details(model: model));
                       }, text: "Details",width: 100,height: 25),
                       // const Spacer(),
                       // InkWell(
@@ -542,8 +542,8 @@ Widget buildSavedItem(context, MriModel model, PatientModel patientModel){
               ],
             ),
           ),flex: 2,),
-        if(usermodel!.uId == patientModel.dId)
-        if(model.isSaved!)
+        // if(usermodel!.uId == patientModel.dId)
+        // // if(model.isSaved!)
           Expanded(child: Container(
           height: 137,
           decoration: BoxDecoration(

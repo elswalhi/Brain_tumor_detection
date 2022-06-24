@@ -12,8 +12,8 @@ import '../shared/const/const.dart';
 
 class Details extends StatefulWidget {
   MriModel? model;
-  PatientModel? patientModel;
-   Details({Key? key,required this.model,required this.patientModel}) : super(key: key);
+  //PatientModel? patientModel;
+   Details({Key? key,required this.model}) : super(key: key);
 
   @override
   State<Details> createState() => _DetailsState();
@@ -95,7 +95,7 @@ class _DetailsState extends State<Details> {
                         Row(
                           children: [
                             Text("Folder name : ",style: textStyle.copyWith(color:HexColor("#8A8A8A"),fontWeight: FontWeight.w400),),
-                            Text("${widget.patientModel!.name}",style: textStyle)
+                            Text("${widget.model!.patientName}",style: textStyle)
                           ],
                         ),
                         const SizedBox(height: 10,),
