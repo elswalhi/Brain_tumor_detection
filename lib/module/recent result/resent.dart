@@ -23,11 +23,6 @@ class Recent extends StatelessWidget {
           child: Column(
             children: [
               buildStaticsItem(),
-              defaultButton(function: (){
-                // print("lenght mri ${cubit.recentModels.length}");
-                // print("lenght mri ${cubit.recentModels.last.patientName}");
-                print("save patient ${cubit.mriSave.length}");
-              }, text: "Login"),
               const SizedBox(height: 10,),
               Container(
                 width: double.infinity,

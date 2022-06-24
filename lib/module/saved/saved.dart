@@ -17,19 +17,19 @@ class SavedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit,Appstates>(
-      listener:(context,sate){},
-      builder:(context,sate){
+      listener:(context,state){},
+      builder:(context,state){
         var cubit =AppCubit.get(context);
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 20.0),
           child: BuildCondition(
             condition: cubit.mriSave.isNotEmpty,
             builder: (context) => ListView.separated(
-                itemBuilder: (context,index)=>buildSavedItem( context,cubit.mriSave[index]),
+                itemBuilder: (context,index)=>buildSavedItem( context,state, cubit.mriSave[index]),
                 separatorBuilder: (context,index)=> const SizedBox(height: 5,),
                 itemCount: cubit.mriSave.length
             ),
-            fallback: (context) => CircularProgressIndicator(),
+            fallback: (context) => Center(child: CircularProgressIndicator()),
           ),
         );
 

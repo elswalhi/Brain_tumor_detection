@@ -19,7 +19,8 @@ class UpdatePatientSuccess extends Appstates{}
 class UpdatePatientError extends Appstates{}
 
 //update save
-class UpdateSaveLoading extends Appstates{}
+class UpdateSaveTrueLoading extends Appstates{}
+class UpdateSaveFalseLoading extends Appstates{}
 class UpdateSaveSuccess extends Appstates{}
 class UpdateSaveError extends Appstates{}
 class ChangeSaved extends Appstates{}
