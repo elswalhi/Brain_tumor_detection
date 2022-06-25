@@ -4,10 +4,12 @@ import 'package:brain_tumor/module/Login/loginCubit/cubit/cubit.dart';
 import 'package:brain_tumor/module/Result/name%20result.dart';
 import 'package:buildcondition/buildcondition.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import '../../cubit/states/states.dart';
 import '../../module/ImageDetails.dart';
+import '../../module/Login/loginCubit/state/states.dart';
 import '../colors/colors.dart';
 import '../const/const.dart';
 // ignore: avoid_types_as_parameter_names
@@ -84,9 +86,6 @@ double divider=80;
 //   color: maincolor,
 //   height: height,);
 
-
-
-
 Widget defaultButton({
   double width = double.infinity,
   bool isUpperCase = true,
@@ -101,7 +100,7 @@ Widget defaultButton({
       child: MaterialButton(
         onPressed: function,
         child: Text(
-           text ,
+          text ,
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w700,
@@ -117,11 +116,48 @@ Widget defaultButton({
       ),
     );
 
+
+Widget LogutButton({
+  double width = double.infinity,
+  bool isUpperCase = true,
+  double height=35,
+  double radius = 4.0,
+  required  Function() function,
+  @required  text,
+}) =>
+    Container(
+      width: width,
+      height: height,
+      child: MaterialButton(
+        onPressed: function,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Text(
+            text ,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+            ),
+          ),
+          SizedBox(width: 10,),
+          Icon(Icons.logout,color: Colors.white,),
+          ],
+        ),
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(
+          radius,
+        ),
+        color: HexColor("#F41D1D"),
+      ),
+    );
+
 Widget defultTextButton({
   @required String? text,
   @required function}
     )=> TextButton(onPressed: function, child:Text(text!,style:
-TextStyle(color: textcolor,decoration: TextDecoration.underline,fontSize: 16),));
+TextStyle(color: textcolor,decoration: TextDecoration.none,fontSize: 16),));
 
 
 Widget defaultFormField(
@@ -131,6 +167,7 @@ Widget defaultFormField(
   onSubmit,
   onChange,
   onTap,
+   double width= double.infinity,
   bool isPassword = false,
   required  validate,
   required String label,
@@ -141,6 +178,7 @@ Widget defaultFormField(
   required Color color,
 }) =>
     Container(
+      width: width,
       child: TextFormField(
         style: TextStyle(color: HexColor("#009E82"),fontSize: 14,fontWeight: FontWeight.w400,),
         textAlign: TextAlign.start,
@@ -774,3 +812,120 @@ Widget buildStaticsItem ()=>Padding(
     ),
   ),
 );
+class Changepassword extends StatelessWidget {
+  const Changepassword({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var passwordController=TextEditingController();
+    var newPasswordController=TextEditingController();
+    var RenewPasswordController=TextEditingController();
+    var formkey=GlobalKey<FormState>();
+    return BlocConsumer<LoginCubit,LoginStates>(
+      listener:(context,state){
+        if(state is ChangePassSuccessState){
+          showToast(context, message: "Password was Changed", state: ToastStates.success);
+          passwordController.text='';
+          newPasswordController.text='';
+          RenewPasswordController.text='';
+        }
+        if(state is ChangePassErrorState){
+          showToast(context, message: "Password was wrong", state: ToastStates.error);
+
+        }
+      } ,
+      builder:(context,state)=> Form(
+        key: formkey,
+        child: Column(
+          children: [
+            Container(
+              child: defaultFormField(
+                color: borderColor,
+                controller: passwordController,
+                type: TextInputType.visiblePassword,
+                isPassword: LoginCubit.get(context).isPassword,
+                validate: (String? value){
+                  if(value!.isEmpty){
+                    return 'please Enter your password ';
+                  }
+                  return null;
+                },
+                label: 'Old password',
+                suffix: LoginCubit.get(context).suffix,
+                suffixPressed:(){ LoginCubit.get(context).visiblePass();},
+              ),
+            ),
+            SizedBox(height: 10,),
+            Container(
+              child: defaultFormField(
+                color: borderColor,
+                controller: newPasswordController,
+                type: TextInputType.visiblePassword,
+                isPassword: LoginCubit.get(context).isPassword,
+                validate: (String? value){
+                  if(value!.isEmpty){
+                    return 'please Enter your New password ';
+                  }
+                  if(newPasswordController.text!=RenewPasswordController.text){
+                    return "Passwords is not match";
+                  }
+                  if(value.length<6){
+                    return "password cant be less than 6 digit";
+                  }
+                  return null;
+                },
+                label: 'New Password',
+                onSubmit: (value){
+                  print("s");
+                },
+                suffix: LoginCubit.get(context).suffix,
+                suffixPressed:(){ LoginCubit.get(context).visiblePass();},
+              ),
+            ),
+            SizedBox(height: 10,),
+            Container(
+              child: defaultFormField(
+                color: borderColor,
+                controller: RenewPasswordController,
+                type: TextInputType.visiblePassword,
+                isPassword: LoginCubit.get(context).isPassword,
+                validate: (String? value){
+                  if(value!.isEmpty){
+                    return 'please Enter your New password ';
+                  }
+                  if(newPasswordController.text!=RenewPasswordController.text){
+                    return "Passwords is not match";
+                  }
+                  return null;
+                },
+                label: ' Confirm Password',
+                onSubmit: (value){
+                  print("s");
+                },
+                suffix: LoginCubit.get(context).suffix,
+                suffixPressed:(){ LoginCubit.get(context).visiblePass();},
+              ),
+            ),
+            SizedBox(height: 10,),
+            BuildCondition(
+              condition: state is !ChangePassLoadingState,
+              builder:(context)=> defaultButton( function: (){
+                if(formkey.currentState!.validate()){
+                  LoginCubit.get(context).changePassword(newPassword: newPasswordController.text, currentPassword: passwordController.text);
+                }
+              }, text: "Change password"),
+              fallback:(context)=> Center(child: CircularProgressIndicator()),
+            ),
+            SizedBox(height: 50,),
+            LogutButton( function: (){
+              LoginCubit.get(context).logout(context);
+            }, text: " Logout"),
+
+          ],
+        ),
+      ),
+    );
+  }
+}
+var EditnameController=TextEditingController();
+var EditemailController=TextEditingController();

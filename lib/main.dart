@@ -7,6 +7,7 @@ import 'package:brain_tumor/module/AfterUpload/AfterUpload.dart';
 import 'package:brain_tumor/module/ImageDetails.dart';
 import 'package:brain_tumor/module/Login/login.dart';
 import 'package:brain_tumor/module/Login/loginCubit/cubit/cubit.dart';
+import 'package:brain_tumor/module/Profile/Profile.dart';
 import 'package:brain_tumor/module/Register/RegisterCubit/cubit/cubit.dart';
 import 'package:brain_tumor/shared/colors/colors.dart';
 import 'package:brain_tumor/shared/const/const.dart';

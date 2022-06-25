@@ -8,6 +8,24 @@ class getMriSuccess extends Appstates{}
 class getMriSaveLoading extends Appstates{}
 class getMriSaveSuccess extends Appstates{}
 
+class VisiblePassword extends Appstates{}
+class editstate extends Appstates{}
+
+class UploadProfileImageSuccess extends Appstates{}
+
+class UploadProfileImageError extends Appstates{}
+
+class UploadProfileImageLoading extends Appstates{}
+
+class UpdateuserError extends Appstates{}
+
+class Updateusersuccess extends Appstates{}
+
+class UpdateuserLoading extends Appstates{}
+
+class PickProfileImageSuccess extends Appstates{}
+class PickProfileImageError extends Appstates{
+}
 
 class getPatientLoading extends Appstates{}
 class getPatientSuccess extends Appstates{}

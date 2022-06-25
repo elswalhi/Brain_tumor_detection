@@ -1,3 +1,6 @@
+import 'package:brain_tumor/Network/local/sharedpref.dart';
+import 'package:brain_tumor/module/Login/login.dart';
+import 'package:brain_tumor/shared/component/component.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +51,44 @@ class LoginCubit extends Cubit<LoginStates>{
       emit(LoginError(error.toString()));
     });
 
+  }
+
+  void changePassword({required String currentPassword, required String newPassword}) async {
+    emit(ChangePassLoadingState());
+    final user = await FirebaseAuth.instance.currentUser;
+    final cred = EmailAuthProvider.credential(
+        email: usermodel!.email!, password: currentPassword);
+
+    user!.reauthenticateWithCredential(cred).then((value) {
+      user.updatePassword(newPassword).then((_) {
+        //Success, do something
+        emit(ChangePassSuccessState());
+        print("done");
+      }).catchError((error) {
+        emit(ChangePassErrorState());
+        //Error, show something
+        print("$error");
+
+      });
+    }).catchError((err) {
+      print(" $err");
+      emit(ChangePassErrorState());
+    });}
+
+  void logout(context){
+    emit(SignOutLoadingState());
+    FirebaseAuth.instance.signOut().then((value) {
+      CacheHelper.removeData(key: 'uId').then((value) {
+        navigateAndFinish(
+          context,
+          LoginScreen(),
+        );
+        emit(SignOutSuccessState());
+      });
+    }).catchError((error) {
+      emit(SignOutErrorState());
+      print(error.toString());
+    });
   }
 
   bool isPassword=true;

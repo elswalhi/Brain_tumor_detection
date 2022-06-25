@@ -60,7 +60,7 @@ class AboutUs extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Team Members",style:h1,),
+                  Text("Imhotep Team ",style:h1,),
                   SizedBox(height: 10,),
                   Row(
                     children: [

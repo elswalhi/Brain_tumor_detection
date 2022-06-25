@@ -1,6 +1,7 @@
 
 import 'package:brain_tumor/cubit/cubit/cubit.dart';
 import 'package:brain_tumor/cubit/states/states.dart';
+import 'package:brain_tumor/module/Profile/Profile.dart';
 import 'package:brain_tumor/module/uploadscreen/UploadScreen.dart';
 import 'package:brain_tumor/shared/colors/colors.dart';
 import 'package:brain_tumor/shared/component/component.dart';
@@ -46,10 +47,15 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           const CircleAvatar(radius: 27,backgroundColor: Colors.white,),
                           if(usermodel != null)
-                            CircleAvatar(
-                            backgroundImage: NetworkImage(usermodel!.image!) ,
-                            radius: 25,
+                            InkWell(
+                              onTap: (){
+                                navigateTo(context, Profile());
+                              },
+                              child: CircleAvatar(
+                              backgroundImage: NetworkImage(usermodel!.image!) ,
+                              radius: 25,
                           ),
+                            ),
                         ],
                       ),
                     ),

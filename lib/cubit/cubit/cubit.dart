@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:brain_tumor/Network/local/sharedpref.dart';
 import 'package:brain_tumor/model/MriModel/MriModel.dart';
 import 'package:brain_tumor/module/After%20Process/Afterprocess.dart';
 import 'package:brain_tumor/module/AfterUpload/AfterUpload.dart';
+import 'package:brain_tumor/module/Login/login.dart';
 import 'package:brain_tumor/module/Result/result.dart';
 import 'package:brain_tumor/module/about/about.dart';
 import 'package:brain_tumor/module/saved/saved.dart';
@@ -12,6 +14,7 @@ import 'package:brain_tumor/shared/component/component.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:brain_tumor/cubit/states/states.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -385,8 +388,6 @@ class AppCubit extends Cubit<Appstates> {
   //   });
   // }
 
-
-
   void getPatient() async{
 
     emit(getPatientLoading());
@@ -464,10 +465,72 @@ var imageLink;
       print(error);
       emit(GetPostsError(error.toString()));
     });
-
-
-
 }
+  void updateUser({
+    required String name,
+    required String email,
+    String? cover,
+    String? image,
+  }) {
+    emit(UpdateuserLoading());
+    UserModel model = UserModel(
+      name: name,
+      image: image ?? usermodel!.image!,
+      isEmailVerified: false,
+      uId: usermodel!.uId,
+      email: email,
+    );
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(model.uId)
+        .update(model.toMap())
+        .then((value) {
+      getUserData();
+      emit(Updateusersuccess());
+      ProfileImage=null;
+    }).catchError((error) {
+      emit(UpdateuserError());
+    });
+  }
+  void UploadProfileImage({
+    required String name,
+    required String email,
+  }) {
+    emit(UploadProfileImageLoading());
+    FirebaseStorage.instance
+        .ref()
+        .child('usersprof/${Uri.file(ProfileImage!.path).pathSegments.last}')
+        .putFile(ProfileImage!)
+        .then((value) {
+      value.ref.getDownloadURL().then((value) {
+        updateUser(name: name,
+          email: email,
+          image: value,
+        );
+        emit(UploadProfileImageSuccess());
+      });
+    }).catchError((error) {
+      emit(UploadProfileImageError());
+    }).catchError((error) {
+      emit(UploadProfileImageError());
+    });
+  }
+  File? ProfileImage;
+  Future<void> getProfileImage({
+    required String name,
+    required String email}
+      ) async {
+    final PickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (PickedFile != null) {
+      ProfileImage = File(PickedFile.path);
+      emit(PickProfileImageSuccess());
+      UploadProfileImage(email: email, name: name,);
+    } else {
+      print("Error please try again");
+      emit(PickProfileImageError());
+    }
+  }
+
 
   Color resultColor(var conf){
     if (conf<50){
@@ -480,4 +543,30 @@ var imageLink;
     return HexColor("#F41D1D");
   }
   }
+  bool isEdit=false;
+  IconData editicon =Icons.edit;
+  void editprofile(){
+    isEdit=!isEdit;
+    editicon=isEdit? Icons.edit_off : Icons.edit;
+    EditnameController.text=usermodel!.name!;
+    emit(editstate());
+    print(isEdit);
+  }  bool isEEdit=false;
+  IconData Eediticon =Icons.edit;
+  void Eeditprofile(){
+    isEEdit=!isEEdit;
+    Eediticon=isEEdit? Icons.edit_off : Icons.edit;
+    EditemailController.text=usermodel!.email!;
+    emit(editstate());
+    print(isEdit);
+  }
 }
+
+// bool isPassword=true;
+// IconData suffix=Icons.remove_red_eye;
+// void visiblePass(){
+//   isPassword=!isPassword;
+//   suffix=isPassword? Icons.remove_red_eye:Icons.visibility_off;
+//   emit(LoginVisiblePassword());
+//   print(isPassword);
+// }

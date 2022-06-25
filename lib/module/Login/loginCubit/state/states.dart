@@ -27,6 +27,13 @@ class GetUserSuccess extends LoginStates{
   final String uId;
   GetUserSuccess(this.uId);
 }
+class SignOutLoadingState extends LoginStates{}
+class SignOutSuccessState extends LoginStates{}
+class SignOutErrorState extends LoginStates{}
+
+class ChangePassLoadingState extends LoginStates{}
+class ChangePassSuccessState extends LoginStates{}
+class ChangePassErrorState extends LoginStates{}
 
 class GetUserLoading extends LoginStates{}
 
