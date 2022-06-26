@@ -74,9 +74,9 @@ class AboutUs extends StatelessWidget {
                               width: 130,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                    image: AssetImage("assets/picture/swalhi.jpg"),
+                                    image: AssetImage("assets/picture/22.png"),
                                     fit: BoxFit.cover,),
-                                border: Border.all(color: Colors.black),
+                                border: Border.all(color: maincolor),
                                 borderRadius: BorderRadius.circular(100)
                               ),
                             ),
@@ -98,9 +98,9 @@ class AboutUs extends StatelessWidget {
                               width: 130,
                               decoration: BoxDecoration(
                                   image: DecorationImage(
-                                    image: AssetImage("assets/picture/Rauof.jpg"),
+                                    image: AssetImage("assets/picture/33.png"),
                                     fit: BoxFit.cover,),
-                                  border: Border.all(color: Colors.black),
+                                  border: Border.all(color:maincolor),
                                   borderRadius: BorderRadius.circular(100)
                               ),
                             ),
@@ -128,9 +128,9 @@ class AboutUs extends StatelessWidget {
                               width: 130,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                    image: AssetImage("assets/picture/ahmed.jpg"),
+                                    image: AssetImage("assets/picture/44.png"),
                                     fit: BoxFit.cover,),
-                                border: Border.all(color: Colors.black),
+                                border: Border.all(color: maincolor),
                                 borderRadius: BorderRadius.circular(100)
                               ),
                             ),
@@ -152,9 +152,9 @@ class AboutUs extends StatelessWidget {
                               width: 130,
                               decoration: BoxDecoration(
                                   image: DecorationImage(
-                                    image: AssetImage("assets/picture/marawan.jpg"),
+                                    image: NetworkImage("https://fv9-5.failiem.lv/thumb_show.php?i=fcvhvgjnm&view"),
                                     fit: BoxFit.cover,),
-                                  border: Border.all(color: Colors.black),
+                                  border: Border.all(color: maincolor),
                                   borderRadius: BorderRadius.circular(100)
                               ),
                             ),
@@ -182,9 +182,9 @@ class AboutUs extends StatelessWidget {
                               width: 130,
                               decoration: BoxDecoration(
                                   image: DecorationImage(
-                                    image: AssetImage("assets/picture/jihad.jpg"),
+                                    image: AssetImage("assets/picture/55.png"),
                                     fit: BoxFit.contain,),
-                                  border: Border.all(color: Colors.black),
+                                  border: Border.all(color: maincolor),
                                   borderRadius: BorderRadius.circular(100)
                               ),
                             ),
@@ -209,7 +209,7 @@ class AboutUs extends StatelessWidget {
                                   image: DecorationImage(
                                     image: AssetImage("assets/picture/user.jpg"),
                                     fit: BoxFit.cover,),
-                                  border: Border.all(color: Colors.black),
+                                  border: Border.all(color: maincolor),
                                   borderRadius: BorderRadius.circular(100)
                               ),
                             ),
@@ -235,7 +235,7 @@ class AboutUs extends StatelessWidget {
                               image: DecorationImage(
                                 image: AssetImage("assets/picture/user.jpg"),
                                 fit: BoxFit.cover,),
-                              border: Border.all(color: Colors.black),
+                              border: Border.all(color:maincolor),
                               borderRadius: BorderRadius.circular(100)
                           ),
                         ),

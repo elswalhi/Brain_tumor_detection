@@ -49,8 +49,10 @@ class LoginScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         //text
-                        Text("Login"
-                          ,style: TextStyle(fontSize: 25,fontWeight: FontWeight.w700,color: HexColor("#009E82")),),
+                        Center(
+                          child: Text("Login"
+                            ,style: TextStyle(fontSize: 25,fontWeight: FontWeight.w700,color: HexColor("#009E82")),),
+                        ),
                         const SizedBox(height: 40,),
                         //email
                         Container(

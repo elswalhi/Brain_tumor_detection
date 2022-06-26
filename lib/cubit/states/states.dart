@@ -11,6 +11,10 @@ class getMriSaveSuccess extends Appstates{}
 class VisiblePassword extends Appstates{}
 class editstate extends Appstates{}
 
+class SignOutLoadingState extends Appstates{}
+class SignOutSuccessState extends Appstates{}
+class SignOutErrorState extends Appstates{}
+
 class UploadProfileImageSuccess extends Appstates{}
 
 class UploadProfileImageError extends Appstates{}
@@ -53,7 +57,10 @@ class getResultLoading extends Appstates{}
 class getResultSuccess extends Appstates{}
 class getResultError extends Appstates{}
 
+
 class ClassificationSuccess extends Appstates{}
+
+class ClassificationLoading extends Appstates{}
 
 class ClassificationError extends Appstates{}
 

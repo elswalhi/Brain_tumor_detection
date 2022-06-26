@@ -3,6 +3,7 @@ import 'package:brain_tumor/model/MriModel/MriModel.dart';
 import 'package:brain_tumor/module/Login/loginCubit/cubit/cubit.dart';
 import 'package:brain_tumor/module/Result/name%20result.dart';
 import 'package:buildcondition/buildcondition.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -705,7 +706,7 @@ Widget buildFolderItem(context,index, PatientModel model, MriModel mriModel){
               top: BorderSide(color:HexColor("#D9D9D9"),width: 1),
             ),
           ),
-          child: Center(child: Text("${mriModel.confidence!.floor()}%",style: TextStyle(color: AppCubit.get(context).resultColor(mriModel.confidence!.floor()) ,fontWeight: FontWeight.w700,fontSize: 35),)),
+          child: Center(child: Text("${mriModel.result}",style: TextStyle(color: resultColor(mriModel.result) ,fontWeight: FontWeight.w700,fontSize: 20),)),
         ),
         ),
       ],
@@ -716,7 +717,7 @@ Widget buildStaticsItem ()=>Padding(
   padding: const EdgeInsets.all(20.0),
   child: Container(
     width: double.infinity,
-    height: 243,
+    height: 260,
     decoration: BoxDecoration(
       // boxShadow:const [
       //   BoxShadow(
@@ -734,7 +735,7 @@ Widget buildStaticsItem ()=>Padding(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 30),
+          padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 50),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children:  [
@@ -748,10 +749,10 @@ Widget buildStaticsItem ()=>Padding(
                         strokeWidth: 4,
                         backgroundColor: HexColor("#D8D8D8"),
                         color:HexColor("#F41D1D") ,
-                        value:.14  ,
+                        value:Positive/100  ,
                       ),
                     ),
-                    Text('14%',style: TextStyle(
+                    Text('${Positive.toInt()}%',style: TextStyle(
                         fontSize: 14,
                         color: HexColor("#F41D1D")
                     ),),
@@ -760,28 +761,28 @@ Widget buildStaticsItem ()=>Padding(
                 ),
               ),
               const SizedBox(height: 15,),
-              SizedBox(
-                child: Stack(
-                  children: [
-                    SizedBox(
-                      height: 51,
-                      width: 51,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 4,
-                        backgroundColor: HexColor("#D8D8D8"),
-                        color:HexColor("#F4AB1D") ,
-                        value:.26  ,
-                      ),
-                    ),
-                    Text("26%",style: TextStyle(
-                        fontSize: 14,
-                        color: HexColor("#F4AB1D")
-                    ),),
-                  ],
-                  alignment: Alignment.center,
-                ),
-              ),
-              const SizedBox(height: 15,),
+              // SizedBox(
+              //   child: Stack(
+              //     children: [
+              //       SizedBox(
+              //         height: 51,
+              //         width: 51,
+              //         child: CircularProgressIndicator(
+              //           strokeWidth: 4,
+              //           backgroundColor: HexColor("#D8D8D8"),
+              //           color:HexColor("#F4AB1D") ,
+              //           value:.26  ,
+              //         ),
+              //       ),
+              //       Text("26%",style: TextStyle(
+              //           fontSize: 14,
+              //           color: HexColor("#F4AB1D")
+              //       ),),
+              //     ],
+              //     alignment: Alignment.center,
+              //   ),
+              // ),
+              const SizedBox(height: 30,),
               SizedBox(
                 child: Stack(
                   children: [
@@ -792,10 +793,10 @@ Widget buildStaticsItem ()=>Padding(
                         strokeWidth: 4,
                         backgroundColor: HexColor("#D8D8D8"),
                         color:HexColor("#009E82") ,
-                        value:.6  ,
+                        value:Negaitve/100  ,
                       ),
                     ),
-                    Text("60%",style: TextStyle(
+                    Text("${Negaitve.toInt()}%",style: TextStyle(
                         fontSize: 14,
                         color: HexColor("#009E82")
                     ),),
@@ -807,11 +808,37 @@ Widget buildStaticsItem ()=>Padding(
           ),
         ),
         const SizedBox(width: 19,),
-        const Image(image: AssetImage("assets/picture/Statistics.png"),width: 270,height: 212,)
+         Padding(
+           padding: const EdgeInsets.only(top: 40.0),
+           child: Container(width: 270,height: 212,
+             child:BarChart(BarChartData(
+                 borderData: FlBorderData(
+                     border: const Border(
+                       top: BorderSide.none,
+                       right: BorderSide.none,
+                       left: BorderSide(width: 2),
+                       bottom: BorderSide(width: 2),
+                     )),
+                 maxY: 100,
+                 groupsSpace: 10,
+                 barGroups: [
+                   BarChartGroupData(x: 1, barRods: [
+                     BarChartRodData( width: 20, color: maincolor, toY:Negaitve),
+                   ]),
+                   BarChartGroupData(x: 2, barRods: [
+                     BarChartRodData(width: 20, color: Colors.red, toY: Positive, ),
+                   ]),
+
+                 ])),
+           ),
+         )
       ],
     ),
   ),
 );
+dynamic Negaitve;
+dynamic Positive;
+
 class Changepassword extends StatelessWidget {
   const Changepassword({Key? key}) : super(key: key);
 

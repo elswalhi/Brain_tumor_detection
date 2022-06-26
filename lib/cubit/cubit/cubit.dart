@@ -101,6 +101,8 @@ class AppCubit extends Cubit<Appstates> {
   classifyImage({required image,
     required context,
     required datetime}) async {
+    emit(ClassificationLoading());
+
     await Tflite.runModelOnImage(
       path: image.path,
     ).then((value) {
@@ -199,6 +201,7 @@ class AppCubit extends Cubit<Appstates> {
           })
           .catchError((error) {
             emit(UploadResultError());
+            print(error.toString());
           });
     }).catchError((error) {
       print("Error of patint is $error");
@@ -303,90 +306,41 @@ class AppCubit extends Cubit<Appstates> {
         emit(UpdateSaveError());
       });
 
-    // if(!isSaved){
-    //   emit(UpdateSaveFalseLoading());
-    //   PatientModel patientModel = PatientModel(
-    //     name: name,
-    //     dId: usermodel!.uId,
-    //   );
-    //   MriModel mriModel=MriModel(
-    //     confidence: confidence,
-    //     patientName: name,
-    //     image: image,
-    //     isSaved: false,
-    //     result: result,
-    //     date: datetime,
-    //     mrId: mrid,
-    //   );
-    //   FirebaseFirestore.instance.collection('users').doc(usermodel!.uId)
-    //       .collection("patient")
-    //       .doc(name).update(patientModel.toMap())
-    //       .then((value) {
-    //     FirebaseFirestore.instance.collection('users').doc(usermodel!.uId)
-    //         .collection('patient')
-    //         .doc(name)
-    //         .collection('Mri')
-    //         .doc(mrid).update(mriModel.toMap())
-    //         .then((value) {
-    //       emit(UpdateSaveSuccess());
-    //       getPatient();
-    //     })
-    //         .catchError((error) {
-    //       emit(UpdateSaveError());
-    //     });
-    //   }).catchError((error) {
-    //     print("Error of patint is $error");
-    //     emit(UpdateSaveError());
-    //   });
-    // }
+
   }
 
+  void logout(context){
+    emit(SignOutLoadingState());
+    FirebaseAuth.instance.signOut().then((value) {
+      CacheHelper.removeData(key: 'uId').then((value) {
+        navigateAndFinish(
+          context,
+          LoginScreen(),
+        );
+
+       patientModels = [];
+         mriModels = [];
+        recentModels = [];
+         mriSave = [];
+        mrIdList = [];
+        resultList = [];
+        emit(SignOutSuccessState());
+      });
+    }).catchError((error) {
+      emit(SignOutErrorState());
+      print(error.toString());
+    });
+  }
   List<PatientModel> patientModels = [];
   List<MriModel> mriModels = [];
   List<MriModel> recentModels = [];
   List<MriModel> mriSave = [];
+  List<MriModel> mriPositive = [];
+  List<MriModel> mriNigative = [];
   List<String> mrIdList = [];
   List<String?> resultList = [];
   Map<String, List<MriModel>> mriDetails = {};
-  // void getPatient(){
-  //   emit(getPatientLoading());
-  //   FirebaseFirestore.instance
-  //       .collection('patient')
-  //       .get().then((value) {
-  //         value.docs.forEach((patientId) {
-  //           patientModels.add(PatientModel.fromJson(patientId.data()));
-  //           mriDetails.addAll({patientId.id:[]});
-  //           patientId.reference.collection('Mri').get().then((value) {
-  //             value.docs.forEach((element) {
-  //               // print(" ssssssssssssssssss ${patientId.id}");
-  //               mriModels.forEach((elements) {
-  //
-  //                 // if(patientId.id == elements.patientName){
-  //                 //
-  //                 //   // print("user ${usermodel!.uId}");
-  //                 //   // recentModels.add(elements);
-  //                 // }
-  //
-  //               });
-  //               mriModels.forEach((e) {
-  //                 if(e.isSaved == true && patientId.id == usermodel!.uId){
-  //                   mriSave.add(e);
-  //                 }
-  //               });
-  //               mriDetails[patientId.id]!.add(MriModel.fromJson(element.data()));
-  //               mrIdList.add(element.id);
-  //               mriModels.add(MriModel.fromJson(element.data()));
-  //             });
-  //           });
-  //         });
-  //         print(mrIdList);
-  //
-  //         emit(getPatientSuccess());
-  //   }).catchError((error) {
-  //         print(error.toString());
-  //         emit(getPatientError());
-  //   });
-  // }
+
 
   void getPatient() async{
 
@@ -408,11 +362,22 @@ class AppCubit extends Cubit<Appstates> {
                 print("mrimpd ${mriModels.length}");
               });
               mriSave = [];
+              mriPositive = [];
+               mriNigative = [];
               mriModels.forEach((e) {
                 if(e.isSaved == true){
                   mriSave.add(e);
                 }
+                if(e.result=="Negative "){
+                  mriNigative.add(e);
+                }  if(e.result=="Positive "){
+                  mriPositive.add(e);
+                }
                 print("mrisave ${mriSave.length}");
+                print("mriPositive ${mriPositive.length}");
+                Positive=(mriPositive.length/(mriPositive.length+mriNigative.length))*100;
+                Negaitve=(mriNigative.length/(mriPositive.length+mriNigative.length))*100;
+                print("mriNigative ${mriNigative.length}");
               });
               emit(getMriSuccess());
             });

@@ -88,3 +88,12 @@ var date = new DateTime.now().toString();
 var dateParse = DateTime.parse(date);
 
 var formattedDate = "${dateParse.day}/${dateParse.month}/${dateParse.year}";
+
+Color resultColor(var Result){
+  if (Result=="Negative "){
+    return maincolor;
+  }
+  else {
+    return HexColor("#F41D1D");
+  }
+}

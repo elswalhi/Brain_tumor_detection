@@ -1,4 +1,3 @@
-import 'package:brain_tumor/Network/remote/dio.dart';
 import 'package:brain_tumor/blocob.dart';
 import 'package:brain_tumor/cubit/cubit/cubit.dart';
 import 'package:brain_tumor/cubit/states/states.dart';
@@ -28,7 +27,6 @@ Future<void> main()  async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
 
-     DioHelper.init();
     await CacheHelper.init();
 
     uId=CacheHelper.getData(key: 'uId');

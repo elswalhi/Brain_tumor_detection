@@ -41,9 +41,11 @@ class Register extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       //text
-                      Text("Sign Up"
-                        ,style: TextStyle(fontSize: 25,fontWeight: FontWeight.w700,color: HexColor("#009E82"))
-                        ),
+                      Center(
+                        child: Text("Sign Up"
+                          ,style: TextStyle(fontSize: 25,fontWeight: FontWeight.w700,color: HexColor("#009E82"))
+                          ),
+                      ),
                       const SizedBox(height: 30,),
                       Container(
                         child: defaultFormField(

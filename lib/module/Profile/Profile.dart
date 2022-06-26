@@ -174,6 +174,10 @@ class Profile extends StatelessWidget {
                       Text("Change Password",style: textStyle,),
                       SizedBox(height: 15,),
                       Changepassword(),
+                      SizedBox(height: 50,),
+                      LogutButton( function: (){
+                        AppCubit.get(context).logout(context);
+                      }, text: " Logout"),
 
 
 

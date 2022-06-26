@@ -76,10 +76,10 @@ class _DetailsState extends State<Details> {
                   ,   scalable: true,
                     height: 350,
                     width: double.infinity,
-                    initialStrokeWidth: 2,
+                    initialStrokeWidth: 3,
                     textDelegate: DutchTextDelegate(),
                     initialColor: Colors.green,
-                    initialPaintMode: PaintMode.line,
+                    initialPaintMode: PaintMode.freeStyle,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0),
@@ -102,7 +102,7 @@ class _DetailsState extends State<Details> {
                         Row(
                           children: [
                             Text("Brain Tumor: ",style: textStyle.copyWith(color:HexColor("#8A8A8A"),fontWeight: FontWeight.w400),),
-                            Text("${widget.model!.result}",style: textStyle.copyWith(color: HexColor("#F41D1D"))),
+                            Text("${widget.model!.result}",style: textStyle.copyWith(color: resultColor(widget.model!.result))),
                           ],
                         ),
                         const SizedBox(height: 25,),

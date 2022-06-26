@@ -14,7 +14,8 @@ class UploadScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, Appstates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+      },
       builder: (context, state) {
         var key = GlobalKey<FormState>();
         var cubit = AppCubit.get(context);
@@ -56,7 +57,7 @@ class UploadScreen extends StatelessWidget {
               currentIndex: cubit.currentIndex,
               onTap: (index) {
                 cubit.ChangeScreens(index, context);
-                Navigator.pop(context);
+                navigateTo(context, HomeScreen());
               },
             ),
           ),

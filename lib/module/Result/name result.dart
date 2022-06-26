@@ -1,36 +1,45 @@
 import 'package:brain_tumor/cubit/cubit/cubit.dart';
 import 'package:brain_tumor/cubit/states/states.dart';
 import 'package:brain_tumor/model/MriModel/MriModel.dart';
+import 'package:brain_tumor/module/ImageDetails.dart';
+import 'package:brain_tumor/module/saved/saved.dart';
 import 'package:brain_tumor/shared/colors/colors.dart';
 import 'package:brain_tumor/shared/component/component.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 import '../../layout/EndLAyout/end.dart';
 import '../../shared/const/const.dart';
 import '../uploadscreen/UploadScreen.dart';
 
-class ResultName extends StatelessWidget {
+class ResultName extends StatefulWidget {
   List<MriModel>? mriModel;
   PatientModel? patientModel;
   ResultName({Key? key, required this.mriModel,required this.patientModel}) : super(key: key);
 
   @override
+  State<ResultName> createState() => _ResultNameState();
+}
+
+class _ResultNameState extends State<ResultName> {
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit,Appstates>(
-      listener:(context,sate){},
-      builder:(context,sate){
+      listener:(context,state){
+      },
+      builder:(context,state){
         var cubit =AppCubit.get(context);
         return Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(70.0),
             child: AppBar(
               leadingWidth: 50,
-              title: const Padding(
+              title:  Padding(
                 padding: EdgeInsetsDirectional.only(top: 10),
                 child: Text(
-                  "Result ",
+                  "${widget.patientModel!.name!}",
                   style: TextStyle(fontSize: 16, color: Colors.white),
                 ),
               ),
@@ -69,10 +78,18 @@ class ResultName extends StatelessWidget {
                 ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context,index)=>buildResultItem(context, mriModel![index]),
+                    itemBuilder: (context,index)=>buildResultItem(context, widget.mriModel![index]),
                     separatorBuilder: (context,index)=>const SizedBox(height: 15,),
-                    itemCount: mriModel!.length
+                    itemCount: widget.mriModel!.length
                 ),
+                SizedBox(height: 30,),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: defaultButton(function: (){
+                    nameController.text=widget.patientModel!.name!;
+                    navigateTo(context, UploadScreen());
+                  }, text: "Make other Mri"),
+                )
               ],
             ),
           ),
@@ -139,4 +156,5 @@ class ResultName extends StatelessWidget {
       } ,
     );
   }
+
 }

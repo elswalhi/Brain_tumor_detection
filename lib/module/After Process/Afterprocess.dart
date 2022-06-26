@@ -59,7 +59,7 @@ class ProcessingDetails extends StatelessWidget {
               ],
             ),
           ),
-          body: state is ClassificationSuccess ?Padding(
+          body: state is !ClassificationLoading ?Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: SingleChildScrollView(
               child: Column(
@@ -94,7 +94,7 @@ class ProcessingDetails extends StatelessWidget {
                         Row(
                           children: [
                             Text("Brain Tumor: ",style: textStyle.copyWith(color:HexColor("#8A8A8A"),fontWeight: FontWeight.w400),),
-                            Text("${cubit.brainResult}",style: textStyle.copyWith(color: HexColor("#F41D1D"))),
+                            Text("${cubit.brainResult}",style: textStyle.copyWith(color: resultColor(cubit.brainResult))),
                           ],
                         ),
                         const SizedBox(height: 25,),
@@ -102,7 +102,7 @@ class ProcessingDetails extends StatelessWidget {
                           children: [
                             Text("Percentage: ",style: textStyle.copyWith(color:HexColor("#8A8A8A"),fontWeight: FontWeight.w400),),
                             const SizedBox(width: 47,),
-                            Text("${((cubit.confidence)!.toInt())}",style: textStyle.copyWith(color: HexColor("#F41D1D"),fontSize: 40)),
+                            Text("${((cubit.confidence)!.toInt())}",style: textStyle.copyWith(color: cubit.resultColor(((cubit.confidence)!.toInt())),fontSize: 40)),
                           ],
                         ),
                         const SizedBox(height: 20,),
